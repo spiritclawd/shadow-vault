@@ -1,18 +1,22 @@
 {
-  "name": "shadow-vault-agent",
-  "version": "0.1.0",
-  "type": "module",
+  "name": "shadow-vault",
+  "version": "1.0.0",
+  "description": "Encrypted AI Agent Strategy Vault on Solana",
+  "main": "dist/index.js",
   "scripts": {
     "demo": "npx tsx src/index.ts",
-    "build": "tsc"
+    "devnet": "npx tsx src/devnet-client.ts",
+    "build": "tsc",
+    "test": "npx tsx src/index.ts"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.98.4",
     "chalk": "^5.3.0",
     "commander": "^12.0.0"
   },
   "devDependencies": {
-    "tsx": "^4.7.0",
-    "typescript": "^5.4.0",
-    "@types/node": "^22.0.0"
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
