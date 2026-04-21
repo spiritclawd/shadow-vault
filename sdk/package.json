@@ -1,0 +1,39 @@
+{
+  "name": "@shadow-vault/solana",
+  "version": "0.2.0",
+  "description": "Privacy-preserving vault SDK for AI agents on Solana — commitments, nullifiers, encrypted orders",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "tsx src/__tests__/live-test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["solana", "privacy", "ai-agents", "vault", "commitment", "nullifier", "defi"],
+  "author": "Shadow Vault",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spiritclawd/shadow-vault"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.87.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
