@@ -1,14 +1,24 @@
 # @shadow-vault/solana
 
+![Built for Colosseum Encrypt Hackathon 2026](https://img.shields.io/badge/Built%20for-Colosseum%20Encrypt%20Hackathon%202026-purple)
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
+![Network](https://img.shields.io/badge/network-Solana%20Devnet-green)
+
 Privacy-preserving vault SDK for AI agents on Solana.
 
 **Your strategies stay yours.** Deposits, withdrawals, and orders are hidden behind cryptographic commitments and nullifiers.
 
-## Install
+[GitHub](https://github.com/spiritclawd/shadow-vault) · [Explorer](https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet)
+
+---
+
+## Installation
 
 ```bash
 npm install @shadow-vault/solana
 ```
+
+Requires `@solana/web3.js` (auto-installed as peer dependency).
 
 ## Quick Start
 
@@ -42,126 +52,109 @@ await vault.withdraw({ vaultId, amountSol: 0.1, nonce: dep.nonce });
 // You DON'T see: which deposit this came from
 ```
 
-## How It Works
-
-### Commitment Scheme (Deposits)
-
-```
-commitment = H(amount || owner || nonce)
-```
-
-- Client generates a random nonce
-- Computes SHA-256 hash of `amount + owner + nonce`
-- Only the hash goes on-chain — amount is hidden
-
-### Nullifier Scheme (Withdrawals)
-
-```
-nullifier = H(vault_id || amount || nonce)
-```
-
-- Proves you deposited without revealing which deposit
-- Prevents double-spend (nullifier stored on-chain)
-- Unlinkable to the original commitment
-
-### Encrypted Orders
-
-```
-order_hash = H(encrypt(details, key))
-```
-
-- Order details encrypted client-side
-- Only the hash stored on-chain
-- Owner can decrypt and share with regulators if needed
-
-## API
+## API Reference
 
 ### `new ShadowVaultClient(owner, config?)`
 
-Create a client instance.
+Creates a connected client instance.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `owner` | `Keypair` | Solana keypair of the vault owner |
+| `config.rpcUrl?` | `string` | RPC endpoint (default: devnet) |
+| `config.programId?` | `string` | On-chain program address |
+| `config.commitment?` | `string` | Transaction commitment level |
 
 ```typescript
 const vault = new ShadowVaultClient(owner, {
   rpcUrl: 'https://api.devnet.solana.com',  // default
-  programId: '7NNxu4...',                    // default: deployed program
+  programId: '7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW', // default
   commitment: 'confirmed',                   // default
 });
 ```
 
-### `vault.deposit(params)`
+### `vault.deposit(params) → DepositResult`
 
-Deposit SOL with a hidden amount.
+Deposit SOL with a hidden amount. Only the commitment hash is stored on-chain.
 
-```typescript
-const result = await vault.deposit({
-  amountSol: 0.1,           // Amount in SOL
-  nonce: generateNonce(),   // Optional: custom nonce
-});
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `amountSol` | `number` | Amount in SOL |
+| `nonce?` | `Uint8Array` | Custom nonce (auto-generated if omitted) |
 
-// result.commitment  — save this
-// result.nonce       — CRITICAL: save for withdrawal
-// result.signature   — tx signature
-// result.explorerUrl — Solana Explorer link
-```
-
-### `vault.withdraw(params)`
-
-Withdraw using a nullifier (unlinkable to deposit).
+**Returns:**
 
 ```typescript
-await vault.withdraw({
-  vaultId: commitment.slice(0, 32),  // From deposit
-  amountSol: 0.1,
-  nonce: dep.nonce,                   // From deposit — REQUIRED
-});
+{
+  commitment: string;      // Save this — needed for withdrawal
+  nonce: Uint8Array;       // CRITICAL: save for withdrawal
+  signature: string;       // Transaction signature
+  explorerUrl: string;     // Solana Explorer link
+}
 ```
 
-### `vault.executeOrder(params)`
+### `vault.executeOrder(params) → OrderResult`
 
-Execute an encrypted order.
+Execute a privacy-preserving order. Details are encrypted client-side; only the hash is stored on-chain.
 
-```typescript
-await vault.executeOrder({
-  details: { pair: 'SOL/USDC', side: 'BUY', amount: 0.05, price: 142.50 },
-  encryptionKey: generateNonce(),  // Save for decryption
-});
-```
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `details` | `object` | Order details: `{ pair, side, amount, price }` |
+| `encryptionKey` | `Uint8Array` | Key to encrypt order (save for decryption) |
 
-### `vault.getVaultInfo(vaultId)`
+### `vault.withdraw(params) → WithdrawResult`
 
-Get vault balance and status.
+Withdraw using a nullifier — cryptographically unlinkable to the original deposit.
 
-### `vault.getBalance()`
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `vaultId` | `string` | First 32 chars of deposit commitment |
+| `amountSol` | `number` | Amount to withdraw |
+| `nonce` | `Uint8Array` | Nonce from the deposit (required) |
 
-Get owner's SOL balance.
+### `vault.getVaultInfo(vaultId) → VaultInfo`
+
+Retrieve vault balance and status.
+
+### `vault.getBalance() → number`
+
+Get the owner's SOL balance.
 
 ### `vault.runDemo(amountSol?)`
 
-Run a full deposit → order flow (for testing).
+Run a full deposit → order → verify flow (for testing).
 
-## Privacy Primitives
+---
 
-All primitives work independently — use them without the client if you want.
+## How Privacy Works
 
-```typescript
-import {
-  createCommitment,
-  createNullifier,
-  createPolicyCommitment,
-  encryptOrder,
-  decryptOrder,
-  generateNonce,
-  toHex,
-} from '@shadow-vault/solana';
+Shadow Vault uses three cryptographic primitives to hide your activity on-chain:
+
+### 1. Commitment Scheme (Deposits)
+
+```
+commitment = SHA-256(amount || owner || nonce)
 ```
 
-## On-Chain Verification
+The deposit amount never appears on-chain — only a hash. You keep the nonce secret to prove ownership later.
 
-- **Program:** `7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW`
-- **Network:** Solana Devnet
-- **Explorer:** [View on Solana Explorer](https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet)
+### 2. Nullifier Scheme (Withdrawals)
 
-## What's Private
+```
+nullifier = SHA-256(vault_id || amount || nonce)
+```
+
+When you withdraw, a unique nullifier is published. It proves you deposited without revealing *which* deposit. The nullifier is stored on-chain to prevent double-spend.
+
+### 3. Encrypted Orders
+
+```
+order_hash = SHA-256(encrypt(details, key))
+```
+
+Order details (pair, side, amount, price) are encrypted client-side. Only the hash is stored on-chain. The owner holds the decryption key and can share it with regulators if needed.
+
+### What's Visible vs. Hidden
 
 | Data | On-Chain | Hidden? |
 |------|----------|---------|
@@ -171,15 +164,76 @@ import {
 | Policy limits | Commitment hashes | ✅ Yes |
 | SOL balance | PDA balance | ⚠️ Visible (native SOL) |
 
-## Roadmap
+---
 
-- ✅ v0.2: Commitments, nullifiers, encrypted orders
-- 🔜 SPL token support
-- 🔜 Multi-sig owner
-- 🔜 ZK proofs for policy compliance
-- 🔜 FHE integration (Inco Network)
-- 🔜 Multi-chain (Ethereum, Base, Arbitrum)
+## Privacy Primitives
+
+All primitives are available standalone — use them without the client if you prefer:
+
+```typescript
+import {
+  createCommitment,
+  createNullifier,
+  createPolicyCommitment,
+  encryptOrder,
+  decryptOrder,
+  generateNonce,
+  updateAccumulator,
+  sha256,
+  toHex,
+  fromHex,
+  lamportsToSol,
+  solToLamports,
+  PROGRAM_ID,
+  DEVNET_RPC,
+  VERSION,
+} from '@shadow-vault/solana';
+```
+
+---
+
+## On-Chain Verification
+
+| | |
+|---|---|
+| **Program ID** | `7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW` |
+| **Network** | Solana Devnet |
+| **Explorer** | [View on Solana Explorer](https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet) |
+
+---
+
+## Status & Roadmap
+
+### ✅ Implemented (v0.2.0)
+
+- Commitment-based deposits (hidden amounts)
+- Nullifier-based withdrawals (unlinkable)
+- Encrypted order execution
+- SHA-256 commitment primitives
+- Full TypeScript types
+- Devnet deployment with passing tests
+
+### 🔜 Roadmap
+
+- SPL token support
+- Multi-sig owner
+- ZK proofs for policy compliance
+- FHE integration (Inco Network)
+- Multi-chain (Ethereum, Base, Arbitrum)
+
+---
+
+## Links
+
+- **GitHub:** [github.com/spiritclawd/shadow-vault](https://github.com/spiritclawd/shadow-vault)
+- **Explorer:** [Solana Explorer (devnet)](https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet)
+
+---
 
 ## License
 
 MIT
+
+---
+
+![Built for Colosseum Encrypt Hackathon 2026](https://img.shields.io/badge/Built%20for-Colosseum%20Encrypt%20Hackathon%202026-purple)

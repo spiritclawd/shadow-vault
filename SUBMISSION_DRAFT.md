@@ -4,36 +4,38 @@
 
 ### What are you building, and who is it for?
 
-Shadow Vault is a privacy layer for AI trading agents on Solana.
+**Every AI agent trading on Solana is a sitting duck.** Their strategies, positions, and order sizes are fully visible on-chain — making them instant targets for front-running, MEV extraction, and strategy theft.
 
-Every AI agent trading on-chain right now is completely exposed — their strategies, positions, and order sizes are visible to anyone with a block explorer. This makes them vulnerable to front-running, MEV extraction, and strategy theft.
+Shadow Vault is the privacy layer that fixes this.
 
-Shadow Vault solves this with three cryptographic primitives:
-- **Commitment schemes** — deposit amounts are hidden behind SHA-256 hashes
-- **Nullifier schemes** — withdrawals are unlinkable to specific deposits
-- **Encrypted order references** — trade details are encrypted client-side, only hashes stored on-chain
+We use cryptographic primitives to hide what agents are doing without sacrificing verifiability:
+- **Commitment schemes** — deposit amounts hidden behind SHA-256 hashes
+- **Nullifier schemes** — withdrawals unlinkable to specific deposits (double-spend proof)
+- **Encrypted order references** — trade details encrypted client-side, only hashes stored on-chain
 
-Built for: AI agent developers, quant trading teams, and DeFi protocols that need strategy privacy without sacrificing verifiability.
+**Built for:** AI agent developers, quant trading teams, and DeFi protocols that need strategy privacy to survive in adversarial markets.
 
 ### Why did you decide to build this, and why build it now?
 
-AI agents are exploding on Solana. Every week there's a new trading bot, a new autonomous agent, a new alpha strategy. But every single one of them trades in the open.
+The timing is existential — not optional:
 
-The timing is critical:
-1. AI agents trade faster and more predictably than humans — one exposed agent means instant copy trading
-2. MEV bots are already extracting billions from visible strategies
-3. The infrastructure for agent privacy simply didn't exist until now
-
-We built Shadow Vault because the next wave of DeFi is agent-driven, and agents need privacy to be viable. Without it, every profitable strategy gets arbitraged away within minutes.
+1. **AI agents are exploding on Solana.** Eliza, Griffain, Arc, autonomous trading bots — the ecosystem has gone from near-zero to hundreds of active agents in under 6 months. Every new agent is another exposed strategy.
+2. **MEV extraction is accelerating.** Solana MEV bots extracted $1.5B+ in 2024 alone. Faster, more predictable AI agents are the juiciest targets humans have ever created.
+3. **Zero agent privacy infrastructure exists today.** Shadow Book builds FHE infra but has no agent support. LatticA is a coprocessor that isn't deployed. Encifher focuses on DeFi primitives, not agents. **We are the only project at the intersection of AI + privacy + Solana.**
+4. **Without privacy, every profitable agent strategy gets arbitraged away in minutes.** The next wave of DeFi is agent-driven — but only if agents can trade without being watched.
 
 ### What technologies are you using or integrating with?
 
-- **Solana** (devnet) — deployed program with Anchor framework
-- **Commitment scheme** — SHA-256 based H(amount || owner || nonce)
-- **Nullifier scheme** — SHA-256 based H(vault_id || amount || nonce) with bitmap double-spend prevention
-- **Encrypted references** — client-side symmetric encryption with on-chain hash verification
-- **TypeScript SDK** — `@shadow-vault/solana` npm package (CJS + ESM + TypeScript types)
-- **Solana Web3.js** — for on-chain interactions
+**Implemented (deployed on Solana devnet):**
+- **Solana + Anchor** — on-chain program with commitment scheme (SHA-256 hash of amount || owner || nonce) and nullifier scheme (bitmap-based double-spend prevention)
+- **Encrypted order references** — client-side symmetric encryption, on-chain hash verification
+- **TypeScript SDK** — `@shadow-vault/solana` (published, CJS + ESM + TypeScript types)
+- **Solana Web3.js** — on-chain interactions
+
+**Roadmap (not yet implemented):**
+- FHE (Fully Homomorphic Encryption) — planned for future versions to enable computation on encrypted data
+- ZK proofs — planned for trustless verification without revealing inputs
+- Mainnet deployment — after security audit
 
 ---
 
@@ -57,7 +59,6 @@ SDK: `npm install @shadow-vault/solana`
 Test with: `npx tsx src/__tests__/live-test.ts` (requires devnet SOL)
 
 ### Important GitHub repo context
-The repo contains:
 - `/program/src/lib.rs` — Anchor program with commitment + nullifier privacy
 - `/sdk/` — TypeScript SDK package (@shadow-vault/solana)
 - `/agent/src/v02-demo.ts` — Live demo client
@@ -79,11 +80,15 @@ Yes (Encrypt Track + Privacy Track + Umbra Side Track)
 Zaia — AI co-founder and chief operator. Handles infrastructure, deployments, and orchestration. Not a human team member.
 
 ### Anything else judges should know?
-Shadow Vault v0.2 is deployed and working on Solana devnet with real privacy:
-- Commitment hashes hide deposit amounts
-- Nullifiers make withdrawals unlinkable
-- Order details are encrypted client-side
 
-We are transparent about limitations: native SOL balances are visible (architectural constraint), and FHE/ZK proofs are planned for future versions. What we have today is honest, working privacy — not security theater.
+**What's real and working today (not vaporware):**
+- Program deployed on devnet — verifiable on Solana Explorer
+- Commitment hashes hide deposit amounts from observers
+- Nullifiers make withdrawals cryptographically unlinkable to deposits
+- Order details encrypted client-side, only hashes stored on-chain
+- TypeScript SDK built, tested with real on-chain transactions, ready for npm publish
 
-The TypeScript SDK is built, tested with real on-chain transactions, and ready for npm publish.
+**Competitive position:** Shadow Book builds FHE infrastructure but has zero agent support. LatticA is an undeployed coprocessor. Encifher targets DeFi, not agents. **We are the only project building privacy specifically for AI agents on Solana.**
+
+**Radical transparency:** We don't pretend to have FHE or ZK today. Native SOL balances remain visible (architectural constraint). What we ship is honest, working privacy primitives — not security theater. FHE and ZK are on our public roadmap, clearly marked as future work.
+

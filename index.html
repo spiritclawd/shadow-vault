@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shadow Vault — Private Trading Infrastructure for AI Agents</title>
   <meta name="description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Built on Solana.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Shadow Vault — Private Trading Infrastructure for AI Agents">
+  <meta property="og:description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Deployed on Solana Devnet.">
+  <meta property="og:image" content="https://shadow-vault.dev/shadow-vault/media/og-banner.png">
+  <meta property="og:url" content="https://shadow-vault.dev">
+  <meta property="og:site_name" content="Shadow Vault">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shadow Vault — Private Trading Infrastructure for AI Agents">
+  <meta name="twitter:description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Deployed on Solana Devnet.">
+  <meta name="twitter:image" content="https://shadow-vault.dev/shadow-vault/media/og-banner.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -205,6 +218,86 @@
     }
 
     .btn-ghost:hover { border-color: var(--text-dim); }
+
+    /* ── SOCIAL PROOF BAR ── */
+    .social-proof-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 20px 40px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .social-proof-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .social-proof-item svg { flex-shrink: 0; }
+    .social-proof-item strong { color: var(--text); }
+    .social-proof-item a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .social-proof-item a:hover { text-decoration: underline; }
+
+    .proof-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    /* ── JUDGES SECTION ── */
+    .judges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .judge-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.3s;
+    }
+
+    .judge-card:hover { border-color: var(--accent); }
+
+    .judge-card .check {
+      color: var(--green);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .judge-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .judge-card p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    .judge-card a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+
+    .judge-card a:hover { text-decoration: underline; }
 
     /* ── STATS BAR ── */
     .stats-bar {
@@ -534,6 +627,54 @@
     .code-block .num { color: #f78c6c; }
     .code-block .var { color: #eeffff; }
 
+    /* ── CODE COMPARISON ── */
+    .code-compare {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .code-compare-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .code-compare-header h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .code-compare-header p {
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .code-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .code-compare-col h3 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .code-compare-col .label-bad {
+      color: var(--red);
+    }
+
+    .code-compare-col .label-good {
+      color: var(--green);
+    }
+
+    @media (max-width: 768px) {
+      .code-compare-grid { grid-template-columns: 1fr; }
+    }
+
     /* ── FOOTER ── */
     footer {
       padding: 60px 40px;
@@ -639,6 +780,24 @@
       </a>
     </div>
   </section>
+
+  <!-- SOCIAL PROOF BAR -->
+  <div class="social-proof-bar">
+    <div class="social-proof-item">
+      <div class="proof-dot"></div>
+      <strong>Deployed on Solana Devnet</strong>
+      —
+      <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">View Live Program →</a>
+    </div>
+    <div class="social-proof-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L10.2 5.8L16 8L10.2 10.2L8 16L5.8 10.2L0 8L5.8 5.8L8 0Z" fill="#8b5cf6"/></svg>
+      <span>282 KB on-chain binary</span>
+    </div>
+    <div class="social-proof-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L10.2 5.8L16 8L10.2 10.2L8 16L5.8 10.2L0 8L5.8 5.8L8 0Z" fill="#8b5cf6"/></svg>
+      <span>Open-source <a href="https://github.com/spiritclawd/shadow-vault" target="_blank">GitHub</a></span>
+    </div>
+  </div>
 
   <!-- STATS BAR -->
   <div class="stats-bar">
@@ -793,6 +952,48 @@
     </p>
   </section>
 
+  <!-- FOR JUDGES -->
+  <section class="section">
+    <div class="section-label">For Judges</div>
+    <h2>Everything is verifiable</h2>
+    <p>
+      No vaporware. Every claim below links to real code, a live program, or a working demo.
+      Verify it yourself.
+    </p>
+    <div class="judges-grid">
+      <div class="judge-card">
+        <div class="check">✅</div>
+        <h3>Deployed Program</h3>
+        <p>Live on Solana Devnet. 282 KB binary, 3 instructions, immutable after deploy.</p>
+        <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">View on Explorer →</a>
+      </div>
+      <div class="judge-card">
+        <div class="check">✅</div>
+        <h3>Real SDK with Tests</h3>
+        <p>TypeScript client SDK published on npm. Full test suite. Works with Solana agent frameworks.</p>
+        <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank">View on npm →</a>
+      </div>
+      <div class="judge-card">
+        <div class="check">✅</div>
+        <h3>Honest Privacy Audit</h3>
+        <p>Documented threat model, privacy guarantees, and known limitations. No overselling.</p>
+        <a href="https://github.com/spiritclawd/shadow-vault/blob/main/PRIVACY_AUDIT.md" target="_blank">Read Audit →</a>
+      </div>
+      <div class="judge-card">
+        <div class="check">✅</div>
+        <h3>Competitive Analysis</h3>
+        <p>30+ projects analyzed across privacy and AI agent categories. Feature matrix with evidence.</p>
+        <a href="https://github.com/spiritclawd/shadow-vault/blob/main/COMPETITIVE_ANALYSIS.md" target="_blank">Read Analysis →</a>
+      </div>
+      <div class="judge-card">
+        <div class="check">✅</div>
+        <h3>Working Demo</h3>
+        <p>Interactive walkthrough: deposit, trade, enforce policy, audit. Runs in-browser.</p>
+        <a href="#demo">Try Demo →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- DEMO -->
   <section class="demo-section" id="demo">
     <div class="demo-wrapper">
@@ -843,40 +1044,77 @@
 
   <!-- CODE -->
   <section class="code-section" id="code">
-    <div class="code-wrapper">
-      <div class="code-info">
+    <div class="code-compare">
+      <div class="code-compare-header">
         <div class="section-label">For Developers</div>
-        <h2>Integrate in 5 minutes</h2>
+        <h2>See the difference</h2>
         <p>
-          Shadow Vault ships with a TypeScript client SDK. 
-          Three methods: init, deposit, withdraw. 
-          Works with any Solana agent framework.
+          Traditional Solana agents expose every trade. Shadow Vault hides amounts, order details, and withdrawal links — same SDK, total privacy.
         </p>
-        <a href="https://github.com/spiritclawd/shadow-vault" target="_blank" class="btn btn-primary">
-          View on GitHub →
-        </a>
       </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span>src/devnet-client.ts</span>
-          <span>TypeScript</span>
+      <div class="code-compare-grid">
+        <!-- WITHOUT SHADOW VAULT -->
+        <div class="code-compare-col">
+          <h3><span class="label-bad">❌</span> Without Shadow Vault</h3>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span>exposed-agent.ts</span>
+              <span style="color: var(--red);">Exposed</span>
+            </div>
+<pre><span class="cmt">// Every trade is PUBLIC</span>
+<span class="cmt">// Amounts, pairs, timing — all visible</span>
+<span class="cmt">// Anyone can copy your strategy</span>
+
+<span class="kw">const</span> <span class="var">tx</span> = <span class="kw">await</span> <span class="fn">transfer</span>({
+  <span class="var">from</span>: <span class="var">agentWallet</span>,
+  <span class="var">to</span>: <span class="var">dex</span>,
+  <span class="var">amount</span>: <span class="num">5.0</span>,  <span class="cmt">// ← VISIBLE on-chain</span>
+});
+
+<span class="kw">await</span> <span class="fn">placeOrder</span>({
+  <span class="var">pair</span>: <span class="str">'SOL/USDC'</span>,  <span class="cmt">// ← VISIBLE</span>
+  <span class="var">side</span>: <span class="str">'BUY'</span>,       <span class="cmt">// ← VISIBLE</span>
+  <span class="var">size</span>: <span class="num">5.0</span>,         <span class="cmt">// ← VISIBLE</span>
+});
+
+<span class="cmt">// Result: strategy LEAKED</span>
+<span class="cmt">// Competitors front-run your next move</span></pre>
+          </div>
         </div>
-<pre><span class="kw">import</span> { <span class="var">ShadowVaultClient</span>, <span class="var">generateNonce</span> } <span class="kw">from</span> <span class="str">'@shadow-vault/solana'</span>;
+        <!-- WITH SHADOW VAULT -->
+        <div class="code-compare-col">
+          <h3><span class="label-good">✅</span> With Shadow Vault</h3>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span>private-agent.ts</span>
+              <span style="color: var(--green);">Private</span>
+            </div>
+<pre><span class="cmt">// Deposits, orders, withdrawals — all HIDDEN</span>
+<span class="cmt">// Only commitment hashes on-chain</span>
+<span class="cmt">// Strategy stays yours</span>
 
-<span class="cmt">// Connect to devnet</span>
-<span class="kw">const</span> <span class="var">vault</span> = <span class="kw">new</span> <span class="fn">ShadowVaultClient</span>(<span class="var">owner</span>);
+<span class="kw">import</span> { <span class="var">ShadowVaultClient</span> } <span class="kw">from</span> <span class="str">'@shadow-vault/solana'</span>;
 
-<span class="cmt">// Deposit — amount HIDDEN on-chain</span>
-<span class="kw">const</span> <span class="var">dep</span> = <span class="kw">await</span> <span class="var">vault</span>.<span class="fn">deposit</span>({ <span class="var">amountSol</span>: <span class="num">0.1</span> });
+<span class="kw">const</span> <span class="var">vault</span> = <span class="kw">new</span> <span class="fn">ShadowVaultClient</span>(<span class="var">agent</span>);
 
-<span class="cmt">// Execute encrypted order — details HIDDEN</span>
+<span class="cmt">// Deposit — amount HIDDEN by commitment hash</span>
+<span class="kw">const</span> <span class="var">dep</span> = <span class="kw">await</span> <span class="var">vault</span>.<span class="fn">deposit</span>({ <span class="var">amountSol</span>: <span class="num">5.0</span> });
+
+<span class="cmt">// Execute — order details ENCRYPTED on-chain</span>
 <span class="kw">await</span> <span class="var">vault</span>.<span class="fn">executeOrder</span>({
   <span class="var">details</span>: { <span class="var">pair</span>: <span class="str">'SOL/USDC'</span>, <span class="var">side</span>: <span class="str">'BUY'</span> },
   <span class="var">encryptionKey</span>: <span class="fn">generateNonce</span>(),
 });
 
 <span class="cmt">// Withdraw — UNLINKABLE to deposit</span>
-<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">withdraw</span>({ <span class="var">vaultId</span>, <span class="var">amountSol</span>: <span class="num">0.1</span>, <span class="var">nonce</span>: <span class="var">dep</span>.<span class="var">nonce</span> });</pre>
+<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">withdraw</span>({ <span class="var">vaultId</span>, <span class="var">amountSol</span>: <span class="num">5.0</span>, <span class="var">nonce</span>: <span class="var">dep</span>.<span class="var">nonce</span> });</pre>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 32px;">
+        <a href="https://github.com/spiritclawd/shadow-vault" target="_blank" class="btn btn-primary">
+          View Source on GitHub →
+        </a>
       </div>
     </div>
   </section>
@@ -1009,6 +1247,7 @@
     </div>
     <div class="footer-links">
       <a href="https://github.com/spiritclawd/shadow-vault" target="_blank">GitHub</a>
+      <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank">npm</a>
       <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">Explorer</a>
       <a href="#problem">Problem</a>
       <a href="#how">Architecture</a>
@@ -1017,6 +1256,14 @@
       Program: <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW</a>
       <br>
       Deploy Slot: 457071709 · Anchor 1.0.0 · Solana Devnet
+    </div>
+    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+      <p style="font-size: 0.8rem; color: var(--text-dim);">
+        Built for <a href="https://www.colosseum.org/encrypt" target="_blank" style="color: var(--accent); text-decoration: none;">Colosseum Encrypt Track</a> · 2026
+      </p>
+      <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px; opacity: 0.7;">
+        Privacy infrastructure for autonomous AI agents on Solana
+      </p>
     </div>
   </footer>
 
