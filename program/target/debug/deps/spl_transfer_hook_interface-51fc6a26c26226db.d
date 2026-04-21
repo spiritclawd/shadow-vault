@@ -1,0 +1,9 @@
+/home/carlos/projects/shadow-vault/program/target/debug/deps/spl_transfer_hook_interface-51fc6a26c26226db.d: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/error.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/instruction.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/offchain.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/onchain.rs
+
+/home/carlos/projects/shadow-vault/program/target/debug/deps/libspl_transfer_hook_interface-51fc6a26c26226db.rmeta: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/error.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/instruction.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/offchain.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/onchain.rs
+
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/lib.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/error.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/instruction.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/offchain.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-transfer-hook-interface-0.6.5/src/onchain.rs:

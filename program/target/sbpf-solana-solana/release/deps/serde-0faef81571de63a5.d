@@ -1,0 +1,14 @@
+/home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/deps/serde-0faef81571de63a5.d: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/build/serde-ceb9e5098b25d97c/out/private.rs
+
+/home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/deps/libserde-0faef81571de63a5.rlib: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/build/serde-ceb9e5098b25d97c/out/private.rs
+
+/home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/deps/libserde-0faef81571de63a5.rmeta: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/build/serde-ceb9e5098b25d97c/out/private.rs
+
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/build/serde-ceb9e5098b25d97c/out/private.rs:
+
+# env-dep:OUT_DIR=/home/carlos/projects/shadow-vault/program/target/sbpf-solana-solana/release/build/serde-ceb9e5098b25d97c/out

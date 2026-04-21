@@ -1,0 +1,9 @@
+/home/carlos/projects/shadow-vault/program/target/debug/deps/spl_type_length_value-6c508264e48549ea.d: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/error.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/length.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/state.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/variable_len_pack.rs
+
+/home/carlos/projects/shadow-vault/program/target/debug/deps/libspl_type_length_value-6c508264e48549ea.rmeta: /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/lib.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/error.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/length.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/state.rs /home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/variable_len_pack.rs
+
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/lib.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/error.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/length.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/state.rs:
+/home/carlos/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-type-length-value-0.4.6/src/variable_len_pack.rs:
