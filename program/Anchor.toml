@@ -3,10 +3,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-shadow_vault = "ShadwVault1111111111111111111111111111111111"
+shadow_vault = "HgJgRAkYEz1y5fx7wLkVfMSpfxuNsGgyBguXAnzkR9Qa"
 
 [programs.devnet]
-shadow_vault = "ShadwVault1111111111111111111111111111111111"
+shadow_vault = "HgJgRAkYEz1y5fx7wLkVfMSpfxuNsGgyBguXAnzkR9Qa"
 
 [registry]
 url = "https://api.apr.dev"

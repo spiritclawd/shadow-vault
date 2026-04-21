@@ -10,7 +10,7 @@
 use anchor_lang::prelude::*;
 
 // Program ID (valid base58)
-declare_id!("ShdVau1t11111111111111111111111111111111");
+declare_id!("HgJgRAkYEz1y5fx7wLkVfMSpfxuNsGgyBguXAnzkR9Qa");
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // State Accounts
