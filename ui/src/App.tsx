@@ -135,10 +135,10 @@ export default function App() {
           </svg>
           <span className="logo-text">Shadow Vault</span>
         </div>
-        <div className="header-right">
-          <span className="badge badge-live">Live Demo</span>
-          <span className="badge">Solana Devnet</span>
-        </div>
+          <div className="header-right">
+            <span className="badge badge-live">● LIVE ON DEVNET</span>
+            <span className="badge">Program: 9yhMK...EdKRH</span>
+          </div>
       </header>
 
       <main>
@@ -274,15 +274,14 @@ export default function App() {
 
         {/* Footer */}
         <div className="footer">
-          <p>Shadow Vault — Encrypted AI Agent Strategy Vault on Solana</p>
-          <p className="dim">Encrypt FHE × Zerion CLI × Scoped Policies × Solana</p>
-          <div className="track-badges">
-            <span className="track">Encrypt Track $15K</span>
-            <span className="track">Umbra $10K</span>
-            <span className="track">Zerion $7K</span>
-            <span className="track">Torque $3K</span>
-            <span className="track grand">Grand Prize $30K</span>
-          </div>
+          <p>Shadow Vault — Censorship-Resistant Privacy on Solana</p>
+          <p className="dim">Program: 9yhMKQU4baJPW2ncaMrEDAFGy4R7MvUsDgfoshEEdKRH</p>
+          <p className="dim">Deploy Slot: 457071709 • Anchor 1.0.0 • 208 KB</p>
+          <p className="dim">
+            <a href="https://explorer.solana.com/address/9yhMKQU4baJPW2ncaMrEDAFGy4R7MvUsDgfoshEEdKRH?cluster=devnet" target="_blank" style={{color: '#818cf8'}}>View on Explorer</a>
+            {' • '}
+            <a href="https://github.com/spiritclawd/shadow-vault" target="_blank" style={{color: '#818cf8'}}>GitHub</a>
+          </p>
         </div>
       </main>
     </div>
