@@ -1,0 +1,20 @@
+[package]
+name = "shadow-vault"
+version = "0.1.0"
+edition = "2021"
+description = "Encrypted AI Agent Strategy Vault — Solana"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.28"
+
+[dev-dependencies]
