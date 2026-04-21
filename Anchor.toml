@@ -3,8 +3,7 @@ seeds = false
 skip-lint = false
 
 [programs.devnet]
-shadow_vault = "9yhMKQU4baJPW2ncaMrEDAFGy4R7MvUsDgfoshEEdKRH"
-inco_lightning = "5sjEbPiqgZrYwR31ahR6Uk9wf5awoX61YGg7jExQSwaj"
+shadow_vault = "7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW"
 
 [registry]
 url = "https://api.apr.dev"
