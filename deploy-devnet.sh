@@ -35,7 +35,7 @@ echo ""
 
 # 3. Build
 echo "[3/6] Building program..."
-cd /workspaces/shadow-vault/program
+cd /home/carlos/projects/shadow-vault/program
 cargo build-sbf 2>&1 | tail -3
 ls -la target/deploy/shadow_vault.so
 echo "  ✅ Build complete (208KB)"
@@ -55,7 +55,7 @@ echo ""
 # 6. Save deployment info
 echo "[6/6] Saving deployment info..."
 DEPLOY_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-cat > /workspaces/shadow-vault/deployment.json << EOF
+cat > /home/carlos/projects/shadow-vault/deployment.json << EOF
 {
   "network": "devnet",
   "programId": "$PROGRAM_ID",
