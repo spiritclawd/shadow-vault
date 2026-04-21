@@ -619,19 +619,20 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-badge">
-      🏗️ Colosseum Hackathon 2026 — <strong>Encrypt Track</strong>
+      🏗️ Colosseum Hackathon 2026 — <strong>Encrypt Track</strong> — Deployed on Devnet
     </div>
     <h1>
-      AI agents trade.<br>
-      <span class="gradient">Nobody sees how.</span>
+      The privacy layer<br>
+      <span class="gradient">AI agents need.</span>
     </h1>
     <p>
-      Shadow Vault gives autonomous agents encrypted vaults on Solana. 
-      Deposit, trade, withdraw — with zero exposure of balances, positions, or strategy.
+      Every AI agent trading on Solana is exposed. Strategies leaked. Alpha copycatted. 
+      Shadow Vault hides deposits, withdrawals, and orders behind cryptographic commitments and nullifiers.
+      <strong>Not a concept. Deployed. Working. Now.</strong>
     </p>
     <div class="hero-ctas">
-      <a href="#demo" class="btn btn-primary">
-        Try Live Demo →
+      <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank" class="btn btn-primary">
+        npm install @shadow-vault/solana →
       </a>
       <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank" class="btn btn-ghost">
         View on Explorer
@@ -642,8 +643,8 @@
   <!-- STATS BAR -->
   <div class="stats-bar">
     <div class="stat-item">
-      <div class="stat-value">208 KB</div>
-      <div class="stat-label">Compiled Binary</div>
+      <div class="stat-value">282 KB</div>
+      <div class="stat-label">On-Chain Binary</div>
     </div>
     <div class="stat-item">
       <div class="stat-value">3</div>
@@ -697,28 +698,99 @@
     <div class="steps-grid">
       <div class="step-card">
         <div class="step-number">01</div>
-        <h3>Initialize</h3>
-        <p>Create a privacy pool with a unique seed. Generates a PDA vault that only the owner can control.</p>
+        <h3>Commit</h3>
+        <p>Deposit SOL with a commitment hash: H(amount || owner || nonce). The amount is hidden. Only the hash is stored.</p>
       </div>
       <div class="step-card">
         <div class="step-number">02</div>
-        <h3>Deposit</h3>
-        <p>Lock SOL with a cryptographic commitment. The on-chain record shows a hash — not an amount.</p>
+        <h3>Execute</h3>
+        <p>Agent trades using encrypted order references. Details are hashed on-chain. Strategy stays private.</p>
       </div>
       <div class="step-card">
         <div class="step-number">03</div>
-        <h3>Execute</h3>
-        <p>Agent trades using encrypted balance. Policy engine enforces limits without revealing positions.</p>
+        <h3>Nullify</h3>
+        <p>Withdraw with a nullifier: H(vault || amount || nonce). Unlinkable to any deposit. Double-spend prevented.</p>
       </div>
       <div class="step-card">
         <div class="step-number">04</div>
-        <h3>Withdraw</h3>
-        <p>Redeem with a nullifier proof. Prevents double-spend without linking deposits to withdrawals.</p>
+        <h3>Comply</h3>
+        <p>Owner can decrypt order details and share with regulators. Selective disclosure without full exposure.</p>
       </div>
     </div>
     <div style="text-align: center; margin-top: 48px;">
       <img src="/shadow-vault/media/architecture-diagram.png" alt="Shadow Vault Architecture" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--border);">
     </div>
+  </section>
+
+  <!-- WHY SHADOW VAULT -->
+  <section class="section" style="padding-top: 80px;">
+    <div class="section-label">Why Shadow Vault</div>
+    <h2>The only project at this intersection</h2>
+    <p>
+      Privacy for AI agents isn't a niche — it's the gap nobody filled.
+      Shadow Vault is the first to combine encrypted vaults with AI agent strategy protection on Solana.
+    </p>
+    <div style="margin-top: 40px; overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--border);">
+            <th style="text-align: left; padding: 12px 16px; color: var(--text-dim);">Feature</th>
+            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">Shadow Book</th>
+            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">LatticA</th>
+            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">Encifher</th>
+            <th style="text-align: center; padding: 12px 16px; color: var(--accent); font-weight: 700;">Shadow Vault</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 16px;">Encrypted on-chain data</td>
+            <td style="text-align: center; padding: 12px 16px;">✅</td>
+            <td style="text-align: center; padding: 12px 16px;">✅</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 16px;">AI agent support</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green); font-weight: 700;">✅ Only one</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 16px;">Strategy protection</td>
+            <td style="text-align: center; padding: 12px 16px;">Partial</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">✅</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 16px;">Deployed on devnet</td>
+            <td style="text-align: center; padding: 12px 16px;">✅</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">✅</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 16px;">npm SDK</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green); font-weight: 700;">✅ @shadow-vault/solana</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 16px;">Compliance path</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px;">❌</td>
+            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅ Selective disclosure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: 24px; color: var(--text-dim); font-size: 0.85rem; text-align: center;">
+      Based on Colosseum Copilot research across 30+ privacy and AI trading projects.
+      <a href="https://github.com/spiritclawd/shadow-vault/blob/main/COMPETITIVE_ANALYSIS.md" target="_blank" style="color: var(--accent);">Full analysis →</a>
+    </p>
   </section>
 
   <!-- DEMO -->
@@ -789,23 +861,22 @@
           <span>src/devnet-client.ts</span>
           <span>TypeScript</span>
         </div>
-<pre><span class="kw">import</span> { <span class="var">ShadowVaultClient</span> } <span class="kw">from</span> <span class="str">'./devnet-client'</span>;
+<pre><span class="kw">import</span> { <span class="var">ShadowVaultClient</span>, <span class="var">generateNonce</span> } <span class="kw">from</span> <span class="str">'@shadow-vault/solana'</span>;
 
-<span class="cmt">// Initialize encrypted vault</span>
-<span class="kw">const</span> <span class="var">vault</span> = <span class="kw">await</span> <span class="fn">ShadowVaultClient</span>.<span class="fn">init</span>({
-  <span class="var">programId</span>: <span class="str">'9yhMK...EdKRH'</span>,
-  <span class="var">connection</span>: <span class="fn">devnet</span>,
+<span class="cmt">// Connect to devnet</span>
+<span class="kw">const</span> <span class="var">vault</span> = <span class="kw">new</span> <span class="fn">ShadowVaultClient</span>(<span class="var">owner</span>);
+
+<span class="cmt">// Deposit — amount HIDDEN on-chain</span>
+<span class="kw">const</span> <span class="var">dep</span> = <span class="kw">await</span> <span class="var">vault</span>.<span class="fn">deposit</span>({ <span class="var">amountSol</span>: <span class="num">0.1</span> });
+
+<span class="cmt">// Execute encrypted order — details HIDDEN</span>
+<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">executeOrder</span>({
+  <span class="var">details</span>: { <span class="var">pair</span>: <span class="str">'SOL/USDC'</span>, <span class="var">side</span>: <span class="str">'BUY'</span> },
+  <span class="var">encryptionKey</span>: <span class="fn">generateNonce</span>(),
 });
 
-<span class="cmt">// Deposit with commitment hash</span>
-<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">deposit</span>(<span class="num">10_000_000_000</span>, <span class="var">commitment</span>);
-
-<span class="cmt">// Agent executes encrypted orders</span>
-<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">executeOrder</span>({
-  <span class="var">market</span>: <span class="str">'SOL/USDC'</span>,
-  <span class="var">amount</span>: <span class="num">1_000_000_000</span>,
-  <span class="var">policy</span>: <span class="var">agentPolicy</span>,
-});</pre>
+<span class="cmt">// Withdraw — UNLINKABLE to deposit</span>
+<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">withdraw</span>({ <span class="var">vaultId</span>, <span class="var">amountSol</span>: <span class="num">0.1</span>, <span class="var">nonce</span>: <span class="var">dep</span>.<span class="var">nonce</span> });</pre>
       </div>
     </div>
   </section>
@@ -837,9 +908,9 @@
           <div style="background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 20px;">
             <div style="color: var(--accent); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px;">🔒 IN PROGRESS</div>
             <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 0.9rem; line-height: 2;">
-              <li>Encrypt FHE integration</li>
-              <li>Commitment scheme</li>
-              <li>Encrypted audit logs</li>
+              <li>Commitment scheme ✅</li>
+              <li>Nullifier scheme ✅</li>
+              <li>Encrypted order refs ✅</li>
               <li>Hackathon submission</li>
             </ul>
           </div>
