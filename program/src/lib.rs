@@ -8,6 +8,7 @@
 //! The Encrypt CPI integration follows the pattern from docs.encrypt.xyz.
 
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::{invoke, invoke_signed, system_instruction};
 
 // Program ID (valid base58)
 declare_id!("HgJgRAkYEz1y5fx7wLkVfMSpfxuNsGgyBguXAnzkR9Qa");
@@ -167,14 +168,18 @@ pub mod shadow_vault {
         require!(amount > 0, VaultError::InvalidAmount);
 
         // Transfer SOL to vault PDA
-        let transfer_ctx = CpiContext::new(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: ctx.accounts.owner.to_account_info(),
-                to: ctx.accounts.vault.to_account_info(),
-            },
-        );
-        anchor_lang::system_program::transfer(transfer_ctx, amount)?;
+        invoke(
+            &system_instruction::transfer(
+                &ctx.accounts.owner.key(),
+                &ctx.accounts.vault.key(),
+                amount,
+            ),
+            &[
+                ctx.accounts.owner.to_account_info(),
+                ctx.accounts.vault.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
+        )?;
 
         vault.total_deposited = vault.total_deposited.checked_add(amount).unwrap();
 
@@ -206,7 +211,7 @@ pub mod shadow_vault {
         order_amount: u64,
         order_details_ct: [u8; 32],
     ) -> Result<()> {
-        let vault = &ctx.accounts.vault;
+        let vault = &mut ctx.accounts.vault;
         let policy = &mut ctx.accounts.policy;
         let clock = Clock::get()?;
 
@@ -290,16 +295,20 @@ pub mod shadow_vault {
         // Transfer SOL from vault PDA to owner
         let vault_seeds = &[b"vault", policy_id.as_ref(), &[bump]];
         let signer_seeds = &[&vault_seeds[..]];
-        
-        let transfer_ctx = CpiContext::new_with_signer(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: ctx.accounts.vault.to_account_info(),
-                to: ctx.accounts.owner.to_account_info(),
-            },
+
+        invoke_signed(
+            &system_instruction::transfer(
+                &ctx.accounts.vault.key(),
+                &ctx.accounts.owner.key(),
+                amount,
+            ),
+            &[
+                ctx.accounts.vault.to_account_info(),
+                ctx.accounts.owner.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
             signer_seeds,
-        );
-        anchor_lang::system_program::transfer(transfer_ctx, amount)?;
+        )?;
 
         let vault = &mut ctx.accounts.vault;
         vault.total_withdrawn = vault.total_withdrawn.checked_add(amount).unwrap();
