@@ -16,6 +16,6 @@ default = []
 
 [dependencies]
 anchor-lang = "1.0.0"
-solana-invoke = "2"
+solana-invoke = "0.5"
 
 [dev-dependencies]
