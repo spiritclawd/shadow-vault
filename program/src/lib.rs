@@ -160,19 +160,23 @@ pub mod shadow_vault {
         ctx: Context<Deposit>,
         amount: u64,
     ) -> Result<()> {
-        let vault = &mut ctx.accounts.vault;
-        require!(vault.is_active, VaultError::VaultInactive);
-        require!(
-            vault.owner == ctx.accounts.owner.key(),
-            VaultError::Unauthorized
-        );
         require!(amount > 0, VaultError::InvalidAmount);
+
+        // Extract keys before mutable borrow to satisfy borrow checker
+        let vault_key = ctx.accounts.vault.key();
+        let owner_key = ctx.accounts.owner.key();
+
+        {
+            let vault = &ctx.accounts.vault;
+            require!(vault.is_active, VaultError::VaultInactive);
+            require!(vault.owner == owner_key, VaultError::Unauthorized);
+        }
 
         // Transfer SOL to vault PDA
         invoke(
             &system_instruction::transfer(
-                &ctx.accounts.owner.key(),
-                &ctx.accounts.vault.key(),
+                &owner_key,
+                &vault_key,
                 amount,
             ),
             &[
@@ -182,6 +186,7 @@ pub mod shadow_vault {
             ],
         )?;
 
+        let vault = &mut ctx.accounts.vault;
         vault.total_deposited = vault.total_deposited.checked_add(amount).unwrap();
 
         emit!(Deposited {
