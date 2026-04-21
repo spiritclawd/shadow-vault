@@ -8,7 +8,7 @@
 //! The Encrypt CPI integration follows the pattern from docs.encrypt.xyz.
 
 use anchor_lang::prelude::*;
-use solana_program::{invoke, invoke_signed, system_instruction};
+use anchor_lang::solana_program::system_instruction;
 
 // Program ID (valid base58)
 declare_id!("HgJgRAkYEz1y5fx7wLkVfMSpfxuNsGgyBguXAnzkR9Qa");
