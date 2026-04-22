@@ -1,157 +1,116 @@
 # Shadow Vault
 
-**Encrypted AI Agent Strategy Vault on Solana**
+![Solana](https://img.shields.io/badge/Solana-Devnet-9945FF)
+![Anchor](https://img.shields.io/badge/Anchor-1.0.0-blue)
+![SDK](https://img.shields.io/badge/SDK-v0.2.0-green)
 
-> Colosseum Breakout Hackathon 2026 — $65K+ Prize Ceiling
+**Private limit orders on Solana — trade with intent, not visibility.**
+
+---
 
 ## The Problem
 
-AI agents managing DeFi strategies are a black box. Their positions, balances, and trade logic are visible on-chain — making them vulnerable to front-running, strategy theft, and privacy leaks. Every alpha-generating strategy is a public billboard.
+Every limit order on Solana is a public signal. When a large trader places a buy at $42, every MEV bot and front-runner sees it and acts before execution. On-chain order books leak strategy by design, costing traders billions annually in slippage and adverse execution. Existing privacy solutions either require trusted hardware or are too slow for real-time trading.
 
-## Our Solution
+## What We Built
 
-Shadow Vault uses **Fully Homomorphic Encryption (FHE)** to keep AI agent strategies completely private. Balances, positions, trade logic — all encrypted on-chain, verifiable but unreadable.
+Shadow Vault is an on-chain vault system that separates order *intents* from order *details*. Users deposit funds into vaults with SHA-256 commitment schemes — the commitment hides the order parameters (amount, direction, price target) while the on-chain program enforces execution rules trustlessly. Nullifiers prevent double-spending without revealing which vault is being consumed.
 
-## Live Demo
+**What's on-chain today:** Commitment-based vaults, deposit/withdraw flow, order execution with nullifier verification, and a TypeScript SDK for building private trading agents.
 
-🌐 **Public UI:** https://spiritclawd.github.io/shadow-vault/
+**What's NOT on-chain yet:** FHE-based encrypted order matching, full MEV resistance, cross-protocol private routing.
+
+## Live Links
+
+| Resource | Link |
+|----------|------|
+| **Landing Page** | [https://spiritclawd.github.io/shadow-vault/](https://spiritclawd.github.io/shadow-vault/) |
+| **Solana Explorer** | [Devnet Program](https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet) |
+| **NPM SDK** | `@shadow-vault/solana@0.2.0` |
+
+## Quick Start
+
+```bash
+npm install @shadow-vault/solana
+```
+
+```typescript
+import { ShadowVault } from '@shadow-vault/solana';
+
+const vault = new ShadowVault({ cluster: 'devnet' });
+const { commitment, vaultPDA } = await vault.createVault(wallet, 1_000_000);
+const sig = await vault.executeOrder(wallet, vaultPDA, commitment);
+```
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Shadow Vault                            │
-│                                                             │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │   Solana     │  │    Agent     │  │     UI       │      │
-│  │   Program    │  │  (TypeScript)│  │   (React)    │      │
-│  │              │  │              │  │              │      │
-│  │ • Vault      │  │ • Zerion CLI │  │ • Dark theme │      │
-│  │ • Policy     │  │ • Policies   │  │ • Interactive│      │
-│  │ • Audit      │  │ • FHE Sim    │  │ • Real-time  │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │              FHE Layer (Encrypt SDK)                  │   │
-│  │  Encrypted balances → Encrypted orders → Audit log   │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────┐      commitment       ┌─────────────────────┐
+│  Trader /   │ ──────────────────────▶│  Shadow Vault       │
+│  AI Agent   │                        │  Program (Solana)   │
+│  (SDK)      │◀────────────────────── │                     │
+└─────────────┘   execution receipt    │  4 Instructions:    │
+                                       │  • create_vault     │
+                                       │  • deposit          │
+                                       │  • execute_order    │
+                                       │  • withdraw         │
+                                       └─────────────────────┘
+                                       
+  Commitment:  H(amount ‖ owner ‖ nonce)
+  Nullifier:   H(vault_id ‖ amount ‖ nonce)
+  
+  Program ID:  7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW
 ```
 
-### Program (`program/`) — 592 lines Rust
+## Privacy: Implemented vs Roadmap
 
-Solana/Anchor smart contract with:
-- **Vault Management** — Create vaults with encrypted balances, deposit/withdraw SOL
-- **Policy Engine** — Max order size, epoch spend limits, expiry, allowed tokens
-- **Audit Trail** — All actions logged with encrypted data, owner-only decryption
-- **Agent Authorization** — Only authorized agents can execute orders
+| Feature | Status | Details |
+|---------|--------|---------|
+| SHA-256 commitment schemes | ✅ Implemented | Order params hidden behind H(amount \|\| owner \|\| nonce) |
+| Nullifier-based double-spend prevention | ✅ Implemented | H(vault_id \|\| amount \|\| nonce) |
+| Deposit privacy (amount hidden) | ✅ Implemented | Amount committed, not stored |
+| Execution without revealing intent | ✅ Implemented | Executor consumes nullifier, not vault contents |
+| Encrypted order matching (FHE) | 🔜 Roadmap | Full homomorphic encryption for matching engine |
+| MEV-resistant routing | 🔜 Roadmap | Private transaction submission via Jito bundles |
+| Cross-protocol private swaps | 🔜 Roadmap | Integration with DEX aggregators |
+| ZK proof of order validity | 🔜 Roadmap | Circuits for proving constraints without revealing inputs |
 
-Built with `anchor-lang 1.0.0` + `solana-invoke 0.5`. Compiles to 208KB `.so` binary.
+## Competitive Position
 
-### Agent (`agent/`) — 648 lines TypeScript
+Shadow Vault is the only Solana privacy trading project purpose-built for AI agents — where automated strategies are most vulnerable to front-running and most in need of intent privacy.
 
-AI agent that:
-- Creates encrypted vaults and manages deposits
-- Executes trades with policy enforcement
-- Integrates with Zerion CLI for portfolio data
-- Simulates FHE encryption for demo purposes
-
-### UI (`ui/`) — 686 lines React/CSS
-
-Interactive dark-themed demo showing:
-- Vault creation with encrypted balances
-- Deposit flow (10 SOL → encrypted)
-- Agent trade execution (3 encrypted orders)
-- Policy rejection (order exceeds 2 SOL max)
-- Audit log (encrypted vs plaintext)
-- Owner decryption view
+| Project | Focus | Privacy Method | Agent-First |
+|---------|-------|----------------|-------------|
+| **Shadow Vault** | Private limit orders | Commitments + nullifiers | ✅ |
+| Shadow Book | Dark pool | TEE-based | ❌ |
+| LatticA | FHE trading | FHE (early stage) | ❌ |
+| Encifher | Encrypted orders | FHE (alpha) | ❌ |
 
 ## Prize Tracks
 
-| Track | Sponsor | Prize | How We Qualify |
-|-------|---------|-------|----------------|
-| **Encrypt** | Encrypted Capital Markets | $15,000 | FHE for on-chain encrypted vault data |
-| **Umbra** | Privacy Infrastructure | $10,000 | Private agent strategies |
-| **Zerion** | Portfolio Intelligence | $7,000 | Zerion CLI integration for portfolio data |
-| **Torque** | Agent Orchestration | $3,000 | MCP agent framework |
-| **Grand Prize** | Colosseum | $30,000 | Full-stack encrypted agent vault |
+| Track | Prize | Eligibility | Why We Qualify |
+|-------|-------|-------------|----------------|
+| **Encrypt** | $15,000 | Privacy-preserving on-chain app | SHA-256 commitments hide order params on Solana |
+| **Privacy** | $5,000 | Best privacy-focused project | Nullifier scheme prevents linking deposits to withdrawals |
+| **Umbra** | $10,000 | Private trading / DeFi privacy | Core use case is private limit order execution |
+| **Grand Prize** | $30,000 | Overall hackathon winner | Working SDK, deployed program, clear roadmap |
 
-**Total Ceiling: $65,000+**
-
-## Building
-
-### Program (in GitHub Codespace)
-```bash
-cd program
-cargo build-sbf
-# Output: target/deploy/shadow_vault.so (208KB)
-```
-
-### Agent Demo
-```bash
-cd agent
-npm install
-npm run demo
-```
-
-### UI
-```bash
-cd ui
-npm install
-npm run dev
-# → http://localhost:8082
-```
-
-## Key Compilation Notes
-
-The program was compiled in a **GitHub Codespace** (`shadow-vault-build-r765g77p569c94x`) with:
-- Solana CLI 3.1.13
-- Anchor CLI 1.0.0
-- Rust (latest stable)
-
-The code was adapted from anchor-lang 0.28 → 1.0.0 API:
-- `CpiContext::new` now takes `Pubkey` not `AccountInfo`
-- `invoke`/`invoke_signed` moved to `solana-invoke` crate
-- Borrow checker requires key extraction before mutable borrows
-
-## Files
+## Project Structure
 
 ```
 shadow-vault/
-├── Anchor.toml              # Anchor workspace config
-├── program/
-│   ├── Cargo.toml           # Rust dependencies (anchor-lang 1.0.0)
-│   ├── src/lib.rs           # 602 lines — vault, policy, audit logic
-│   └── target/deploy/
-│       └── shadow_vault.so  # Compiled binary (208KB)
-├── agent/
-│   ├── package.json         # Node dependencies
-│   └── src/
-│       ├── index.ts         # Main agent logic
-│       ├── agent.ts         # Agent class
-│       ├── policy.ts        # Policy engine
-│       ├── encrypt-sim.ts   # FHE simulation
-│       ├── zerion-integration.ts
-│       └── types.ts
-├── ui/
-│   ├── index.html
-│   ├── package.json
-│   └── src/
-│       ├── App.tsx          # Interactive demo UI
-│       ├── App.css          # Dark theme styles
-│       └── main.tsx
-└── README.md                # This file
+├── programs/
+│   └── shadow-vault/          # Anchor program (Solana, 282KB binary)
+│       └── src/lib.rs          # 4 instructions: create_vault, deposit, execute_order, withdraw
+├── sdk/
+│   └── shadow-vault-solana/   # TypeScript SDK (@shadow-vault/solana v0.2.0)
+│       └── src/index.ts        # ShadowVault class, commitment + nullifier utils
+├── landing/                    # Landing page (GitHub Pages)
+├── tests/                      # Anchor integration tests
+├── Anchor.toml                 # Program ID: 7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW
+└── README.md                   # You are here
 ```
-
-## Built With
-
-- [Solana](https://solana.com/) — Blockchain
-- [Anchor](https://www.anchor-lang.com/) — Solana framework
-- [Encrypt](https://docs.encrypt.xyz/) — FHE on Solana
-- [Zerion](https://zerion.io/) — Portfolio data
-- [React](https://react.dev/) + [Vite](https://vitejs.dev/) — UI
 
 ---
 
-*Built for Colosseum Breakout Hackathon 2026*
-*Source: github.com/spiritclawd/shadow-vault*
+*Built for Colosseum Hackathon — Solana Devnet*

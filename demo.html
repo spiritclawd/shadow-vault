@@ -3,14 +3,1083 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shadow Vault — Live Demo</title>
-  <link rel="stylesheet" crossorigin href="/shadow-vault/assets/index-Os6c9IEn.css">
+  <title>Shadow Vault — Interactive Agent Workflow Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; background: #0a0a0f; }
+    :root {
+      --bg: #06060a;
+      --surface: #0d0d14;
+      --surface-2: #12121c;
+      --border: #1a1a2e;
+      --text: #e8e8f0;
+      --text-dim: #6b6b8a;
+      --accent: #8b5cf6;
+      --accent-glow: #a78bfa;
+      --green: #22c55e;
+      --red: #ef4444;
+      --orange: #f59e0b;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6,6,10,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo svg { width: 32px; height: 32px; }
+
+    .nav-logo span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      padding: 120px 40px 80px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .page-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .page-header .badge strong { color: var(--accent); }
+
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 .gradient {
+      background: linear-gradient(135deg, var(--accent), var(--accent-glow), #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-header p {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── STEPPER ── */
+    .stepper {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .stepper-dot {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      transition: all 0.35s;
+      cursor: default;
+    }
+
+    .stepper-dot .num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.35s;
+    }
+
+    .stepper-dot.active {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(139,92,246,0.08);
+    }
+
+    .stepper-dot.active .num {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .stepper-dot.completed {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .stepper-dot.completed .num {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .stepper-connector {
+      width: 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .stepper-connector::after {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+    }
+
+    /* ── STEP CARDS ── */
+    .step-panel {
+      display: none;
+      animation: fadeSlideIn 0.4s ease;
+    }
+
+    .step-panel.active { display: block; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 28px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-header .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      background: rgba(139,92,246,0.12);
+      border: 1px solid rgba(139,92,246,0.25);
+    }
+
+    .card-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .card-header p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .card-body { padding: 28px; }
+
+    /* ── DATA ROWS ── */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(26,26,46,0.6);
+      gap: 16px;
+    }
+
+    .data-row:last-child { border-bottom: none; }
+
+    .data-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+
+    .data-value {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      word-break: break-all;
+      text-align: right;
+      flex: 1;
+    }
+
+    .data-value.accent { color: var(--accent); }
+    .data-value.green { color: var(--green); }
+
+    /* ── VISIBILITY TAGS ── */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+
+    .tag-visible {
+      background: rgba(34,197,94,0.12);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.25);
+    }
+
+    .tag-hidden {
+      background: rgba(239,68,68,0.12);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.25);
+    }
+
+    .tag-encrypted {
+      background: rgba(245,158,11,0.12);
+      color: var(--orange);
+      border: 1px solid rgba(245,158,11,0.25);
+    }
+
+    /* ── ON-CHAIN LOG ── */
+    .onchain-log {
+      margin-top: 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .onchain-log-header {
+      padding: 12px 16px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .onchain-log-header .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 2s infinite;
+    }
+
+    .onchain-log pre {
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      color: var(--text-dim);
+    }
+
+    .onchain-log .hl { color: var(--accent); }
+    .onchain-log .gr { color: var(--green); }
+    .onchain-log .rd { color: var(--red); }
+    .onchain-log .or { color: var(--orange); }
+
+    /* ── INPUT ── */
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    }
+
+    .input-group input::placeholder {
+      color: var(--text-dim);
+    }
+
+    /* ── BUTTONS ── */
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(139,92,246,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(139,92,246,0.4);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { border-color: var(--text-dim); }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* ── SUMMARY ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .summary-card .val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    .summary-card .lbl {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .page { padding: 100px 20px 60px; }
+      .stepper { gap: 6px; }
+      .stepper-dot { padding: 8px 12px; font-size: 0.75rem; }
+      .stepper-connector { width: 12px; }
+      .data-row { flex-direction: column; gap: 4px; }
+      .data-label { min-width: unset; }
+      .data-value { text-align: left; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .tag { margin-left: 0; margin-top: 4px; }
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" crossorigin src="/shadow-vault/assets/index-DJS0VQBS.js"></script>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#12121c"/>
+        <path d="M16 6L8 12V20L16 26L24 20V12L16 6Z" stroke="#8b5cf6" stroke-width="2" fill="none"/>
+        <circle cx="16" cy="16" r="3" fill="#8b5cf6"/>
+      </svg>
+      <span>Shadow Vault</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#how">How it Works</a>
+      <div class="nav-live">
+        <div class="live-dot"></div>
+        Solana Devnet
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="badge">🔒 Interactive Demo — <strong>Agent Workflow</strong></div>
+      <h1>See what's <span class="gradient">visible on-chain</span><br>vs what stays hidden.</h1>
+      <p>Walk through a complete agent vault lifecycle. Every transaction is real cryptographic data — but only hashes hit the chain. Amounts, trade details, and strategy never leak.</p>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item">
+        <span class="tag tag-visible">● Visible</span>
+        Publicly on-chain
+      </div>
+      <div class="legend-item">
+        <span class="tag tag-encrypted">● Encrypted</span>
+        On-chain but unreadable
+      </div>
+      <div class="legend-item">
+        <span class="tag tag-hidden">● Hidden</span>
+        Never leaves the agent
+      </div>
+    </div>
+
+    <!-- STEPPER -->
+    <div class="stepper">
+      <div class="stepper-dot active" id="step-dot-1">
+        <span class="num">1</span> Create Vault
+      </div>
+      <div class="stepper-connector"></div>
+      <div class="stepper-dot" id="step-dot-2">
+        <span class="num">2</span> Deposit
+      </div>
+      <div class="stepper-connector"></div>
+      <div class="stepper-dot" id="step-dot-3">
+        <span class="num">3</span> Execute Order
+      </div>
+      <div class="stepper-connector"></div>
+      <div class="stepper-dot" id="step-dot-4">
+        <span class="num">4</span> Withdraw
+      </div>
+    </div>
+
+    <!-- STEP 1: CREATE VAULT -->
+    <div class="step-panel active" id="panel-1">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon">🏦</div>
+          <div>
+            <h2>Step 1 — Create Vault</h2>
+            <p>The agent initializes a private vault on-chain. A unique PDA is derived.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="data-row">
+            <span class="data-label">Vault PDA</span>
+            <span class="data-value accent" id="vault-pda"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Owner Authority</span>
+            <span class="data-value" id="owner-pubkey"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Vault Balance</span>
+            <span class="data-value">0 SOL</span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Deposit Amounts</span>
+            <span class="data-value" style="color: var(--text-dim);">—</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+
+          <div class="onchain-log">
+            <div class="onchain-log-header">
+              <span class="dot"></span>
+              On-chain transaction log
+            </div>
+            <pre id="log-1"></pre>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" onclick="advanceStep(2)">Deposit Funds →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: DEPOSIT -->
+    <div class="step-panel" id="panel-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon">💰</div>
+          <div>
+            <h2>Step 2 — Deposit</h2>
+            <p>The agent deposits funds. Only a commitment hash is stored on-chain — never the amount.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="input-group">
+            <label>Deposit Amount (SOL) — this stays off-chain</label>
+            <input type="number" id="deposit-input" placeholder="e.g. 5.0" min="0.01" step="0.01" value="5.0">
+          </div>
+
+          <div class="data-row">
+            <span class="data-label">Deposit Amount</span>
+            <span class="data-value" style="color: var(--text-dim);">●●●●●●</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Commitment Hash</span>
+            <span class="data-value accent" id="commitment-hash"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Nullifier Seed</span>
+            <span class="data-value" id="nullifier-seed"></span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Merkle Leaf Index</span>
+            <span class="data-value" id="merkle-index"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Commitment Signature</span>
+            <span class="data-value" id="commitment-sig"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+
+          <div class="onchain-log">
+            <div class="onchain-log-header">
+              <span class="dot"></span>
+              On-chain transaction log
+            </div>
+            <pre id="log-2"></pre>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-ghost" onclick="advanceStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceStep(3)">Execute Order →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: EXECUTE ORDER -->
+    <div class="step-panel" id="panel-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon">⚡</div>
+          <div>
+            <h2>Step 3 — Execute Order</h2>
+            <p>The agent places a trade. Order details are encrypted — only a hash hits the chain.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="data-row">
+            <span class="data-label">Trading Pair</span>
+            <span class="data-value" style="color: var(--text-dim);">●●●●●●</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Order Side</span>
+            <span class="data-value" style="color: var(--text-dim);">●●●●●●</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Order Size</span>
+            <span class="data-value" style="color: var(--text-dim);">●●●●●●</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Encrypted Order Hash</span>
+            <span class="data-value or" id="order-hash"></span>
+            <span class="tag tag-encrypted">● Encrypted</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Execution Signature</span>
+            <span class="data-value" id="exec-sig"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Settlement Proof</span>
+            <span class="data-value green" id="settle-proof"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+
+          <div class="onchain-log">
+            <div class="onchain-log-header">
+              <span class="dot"></span>
+              On-chain transaction log
+            </div>
+            <pre id="log-3"></pre>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-ghost" onclick="advanceStep(2)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceStep(4)">Withdraw →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: WITHDRAW -->
+    <div class="step-panel" id="panel-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="icon">🔓</div>
+          <div>
+            <h2>Step 4 — Withdraw</h2>
+            <p>The agent withdraws using a nullifier — provably unique, but unlinkable to the deposit.</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="data-row">
+            <span class="data-label">Withdrawal Amount</span>
+            <span class="data-value" style="color: var(--text-dim);">●●●●●●</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Nullifier Hash</span>
+            <span class="data-value accent" id="nullifier-hash"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Nullifier Spent?</span>
+            <span class="data-value green">true</span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Deposit ↔ Withdraw Link</span>
+            <span class="data-value" style="color: var(--text-dim);">UNLINKABLE</span>
+            <span class="tag tag-hidden">● Hidden</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Withdrawal Signature</span>
+            <span class="data-value" id="withdraw-sig"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Merkle Proof</span>
+            <span class="data-value" id="merkle-proof"></span>
+            <span class="tag tag-visible">● Visible</span>
+          </div>
+
+          <div class="onchain-log">
+            <div class="onchain-log-header">
+              <span class="dot"></span>
+              On-chain transaction log
+            </div>
+            <pre id="log-4"></pre>
+          </div>
+
+          <!-- SUMMARY -->
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="val">4</div>
+              <div class="lbl">On-chain transactions</div>
+            </div>
+            <div class="summary-card">
+              <div class="val">0</div>
+              <div class="lbl">Amounts leaked</div>
+            </div>
+            <div class="summary-card">
+              <div class="val">0</div>
+              <div class="lbl">Trades exposed</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-ghost" onclick="advanceStep(3)">← Back</button>
+            <button class="btn btn-primary" onclick="resetDemo()">↺ Restart Demo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Shadow Vault — Private Trading Infrastructure for AI Agents<br>
+    <span style="color: var(--accent); font-family: var(--mono); font-size: 0.75rem; margin-top: 8px; display: inline-block;">
+      Program: 7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW
+    </span>
+  </footer>
+
+  <script>
+    // ── Crypto Helpers (simulated) ──
+    function randomHex(bytes) {
+      const arr = new Uint8Array(bytes);
+      crypto.getRandomValues(arr);
+      return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function randomBase58(len) {
+      const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+      let s = '';
+      for (let i = 0; i < len; i++) s += chars[Math.floor(Math.random() * chars.length)];
+      return s;
+    }
+
+    function sha256Hex(text) {
+      // Simple hash simulation for demo
+      let h = 0;
+      for (let i = 0; i < text.length; i++) {
+        h = ((h << 5) - h + text.charCodeAt(i)) | 0;
+      }
+      return Math.abs(h).toString(16).padStart(8, '0') + randomHex(24);
+    }
+
+    function truncate(str, start, end) {
+      if (!str) return '';
+      return str.slice(0, start) + '…' + str.slice(-end);
+    }
+
+    // ── State ──
+    let currentStep = 1;
+    let generated = { 1: false, 2: false, 3: false, 4: false };
+
+    // ── Generate Data ──
+    function genStep1() {
+      if (generated[1]) return;
+      generated[1] = true;
+
+      const vaultPda = randomBase58(44);
+      const ownerPub = randomBase58(44);
+
+      document.getElementById('vault-pda').textContent = truncate(vaultPda, 8, 8);
+      document.getElementById('vault-pda').title = vaultPda;
+      document.getElementById('owner-pubkey').textContent = truncate(ownerPub, 6, 6);
+      document.getElementById('owner-pubkey').title = ownerPub;
+
+      const slot = 284910000 + Math.floor(Math.random() * 10000);
+      const sig = randomBase58(88);
+
+      document.getElementById('log-1').innerHTML =
+`<span class="gr">✓</span> Transaction confirmed
+  Signature: <span class="hl">${truncate(sig, 12, 12)}</span>
+  Slot: ${slot}
+  Block: ${slot - 1}
+
+<span class="gr">✓</span> Program invoked: ShadowVault
+  Instruction: <span class="hl">initialize_vault</span>
+  Accounts:
+    vault_pda:   <span class="hl">${truncate(vaultPda, 10, 10)}</span>  <span class="gr">// ← VISIBLE</span>
+    owner:       <span class="hl">${truncate(ownerPub, 10, 10)}</span>  <span class="gr">// ← VISIBLE</span>
+    system_prog: 11111111111111111111111111111111
+
+<span class="gr">✓</span> Vault created
+  Balance: <span class="rd">0 SOL</span>  <span class="gr">// ← VISIBLE (but future deposits hidden)</span>
+  Commitment tree: <span class="or">initialized (depth 20)</span>
+
+<span class="gr">✓</span> Log: "Vault PDA derived successfully"`;
+    }
+
+    function genStep2() {
+      generated[2] = true;
+
+      const amount = parseFloat(document.getElementById('deposit-input').value) || 5.0;
+      const commitment = '0x' + sha256Hex(amount.toString() + randomHex(32));
+      const nullifierSeed = '0x' + randomHex(32);
+      const merkleIdx = Math.floor(Math.random() * 1048576);
+      const sig = randomBase58(88);
+      const slot = 284910000 + Math.floor(Math.random() * 10000);
+
+      document.getElementById('commitment-hash').textContent = truncate(commitment, 10, 8);
+      document.getElementById('nullifier-seed').textContent = truncate(nullifierSeed, 10, 8);
+      document.getElementById('merkle-index').textContent = '#' + merkleIdx;
+      document.getElementById('commitment-sig').textContent = truncate(sig, 12, 8);
+
+      document.getElementById('log-2').innerHTML =
+`<span class="gr">✓</span> Transaction confirmed
+  Signature: <span class="hl">${truncate(sig, 12, 12)}</span>
+  Slot: ${slot}
+
+<span class="gr">✓</span> Program invoked: ShadowVault
+  Instruction: <span class="hl">deposit</span>
+  Accounts:
+    vault_pda:     <span class="hl">[vault address]</span>
+    commitment_acct: <span class="hl">[derived]</span>
+
+<span class="gr">✓</span> Commitment stored on-chain
+  Hash: <span class="hl">${commitment}</span>  <span class="gr">// ← VISIBLE (amount unrecoverable)</span>
+  Merkle leaf: <span class="hl">#${merkleIdx}</span>
+
+<span class="rd">✗ Amount: [REDACTED]</span>  <span class="rd">// ← HIDDEN — never on-chain</span>
+<span class="rd">✗ Nullifier seed: [REDACTED]</span>  <span class="rd">// ← HIDDEN — kept client-side</span>
+
+<span class="gr">✓</span> SOL transferred: <span class="or">[encrypted]</span>  <span class="gr">// ← amount hidden in memo</span>
+<span class="gr">✓</span> Merkle root updated: <span class="hl">0x${randomHex(32)}</span>`;
+    }
+
+    function genStep3() {
+      generated[3] = true;
+
+      const orderHash = '0x' + randomHex(32);
+      const execSig = randomBase58(88);
+      const settleProof = '0x' + randomHex(32);
+      const slot = 284910000 + Math.floor(Math.random() * 10000);
+
+      document.getElementById('order-hash').textContent = truncate(orderHash, 10, 8);
+      document.getElementById('exec-sig').textContent = truncate(execSig, 12, 8);
+      document.getElementById('settle-proof').textContent = truncate(settleProof, 10, 8);
+
+      document.getElementById('log-3').innerHTML =
+`<span class="gr">✓</span> Transaction confirmed
+  Signature: <span class="hl">${truncate(execSig, 12, 12)}</span>
+  Slot: ${slot}
+
+<span class="gr">✓</span> Program invoked: ShadowVault
+  Instruction: <span class="hl">execute_order</span>
+  Accounts:
+    vault_pda:     <span class="hl">[vault address]</span>
+    order_account: <span class="hl">[encrypted PDA]</span>
+
+<span class="gr">✓</span> Order committed on-chain
+  Encrypted hash: <span class="or">${orderHash}</span>  <span class="or">// ← ENCRYPTED (unreadable)</span>
+
+<span class="rd">✗ Pair: [REDACTED]</span>  <span class="rd">// ← HIDDEN — SOL/USDC?</span>
+<span class="rd">✗ Side: [REDACTED]</span>  <span class="rd">// ← HIDDEN — buy? sell?</span>
+<span class="rd">✗ Size: [REDACTED]</span>  <span class="rd">// ← HIDDEN — 0.1? 100?</span>
+<span class="rd">✗ Price: [REDACTED]</span>  <span class="rd">// ← HIDDEN — market? limit?</span>
+
+<span class="gr">✓</span> Settlement proof: <span class="hl">${settleProof}</span>  <span class="gr">// ← VISIBLE (proves execution)</span>
+<span class="gr">✓</span> Merkle root updated: <span class="hl">0x${randomHex(32)}</span>`;
+    }
+
+    function genStep4() {
+      generated[4] = true;
+
+      const nullifierHash = '0x' + sha256Hex(randomHex(32));
+      const withdrawSig = randomBase58(88);
+      const merkleProof = '0x' + randomHex(32);
+      const slot = 284910000 + Math.floor(Math.random() * 10000);
+
+      document.getElementById('nullifier-hash').textContent = truncate(nullifierHash, 10, 8);
+      document.getElementById('withdraw-sig').textContent = truncate(withdrawSig, 12, 8);
+      document.getElementById('merkle-proof').textContent = truncate(merkleProof, 10, 8);
+
+      document.getElementById('log-4').innerHTML =
+`<span class="gr">✓</span> Transaction confirmed
+  Signature: <span class="hl">${truncate(withdrawSig, 12, 12)}</span>
+  Slot: ${slot}
+
+<span class="gr">✓</span> Program invoked: ShadowVault
+  Instruction: <span class="hl">withdraw</span>
+  Accounts:
+    vault_pda:     <span class="hl">[vault address]</span>
+    recipient:     <span class="hl">[new address — not owner]</span>
+
+<span class="gr">✓</span> Nullifier verified
+  Hash: <span class="hl">${nullifierHash}</span>  <span class="gr">// ← VISIBLE (proves uniqueness)</span>
+  Spent: <span class="gr">true</span>  <span class="gr">// ← VISIBLE (prevents double-spend)</span>
+
+<span class="rd">✗ Original deposit: [UNLINKABLE]</span>  <span class="rd">// ← cannot trace back</span>
+<span class="rd">✗ Withdrawal amount: [REDACTED]</span>  <span class="rd">// ← HIDDEN</span>
+<span class="rd">✗ Deposit ↔ Withdraw link: [NONE]</span>  <span class="rd">// ← mathematically severed</span>
+
+<span class="gr">✓</span> Merkle proof: <span class="hl">${merkleProof}</span>  <span class="gr">// ← VISIBLE (validates inclusion)</span>
+<span class="gr">✓</span> SOL transferred to recipient
+
+<span class="hl">═══════════════════════════════════════════</span>
+<span class="gr">SUMMARY: Amount moved. Strategy hidden.
+  No observer can link this withdrawal
+  to any previous deposit or order.</span>`;
+    }
+
+    // ── Navigation ──
+    function advanceStep(step) {
+      // Validate deposit input on step 2
+      if (currentStep === 2 && step > 2) {
+        const val = parseFloat(document.getElementById('deposit-input').value);
+        if (!val || val <= 0) {
+          document.getElementById('deposit-input').style.borderColor = 'var(--red)';
+          return;
+        }
+      }
+
+      currentStep = step;
+
+      // Update panels
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + step).classList.add('active');
+
+      // Update stepper
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById('step-dot-' + i);
+        dot.classList.remove('active', 'completed');
+        if (i < step) dot.classList.add('completed');
+        else if (i === step) dot.classList.add('active');
+      }
+
+      // Generate data for this step
+      switch (step) {
+        case 1: genStep1(); break;
+        case 2: genStep2(); break;
+        case 3: genStep3(); break;
+        case 4: genStep4(); break;
+      }
+
+      // Scroll to top of page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetDemo() {
+      generated = { 1: false, 2: false, 3: false, 4: false };
+      advanceStep(1);
+    }
+
+    // ── Init ──
+    genStep1();
+  </script>
 </body>
 </html>
