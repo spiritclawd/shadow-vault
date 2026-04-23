@@ -6,60 +6,69 @@
   <title>Shadow Vault — Private Trading Infrastructure for AI Agents</title>
   <meta name="description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Built on Solana.">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Shadow Vault — Private Trading Infrastructure for AI Agents">
   <meta property="og:description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Deployed on Solana Devnet.">
   <meta property="og:image" content="https://shadow-vault.dev/shadow-vault/media/og-banner.png">
   <meta property="og:url" content="https://shadow-vault.dev">
-  <meta property="og:site_name" content="Shadow Vault">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Shadow Vault — Private Trading Infrastructure for AI Agents">
   <meta name="twitter:description" content="Encrypted vaults for autonomous AI agents. Trade without exposure. Deployed on Solana Devnet.">
   <meta name="twitter:image" content="https://shadow-vault.dev/shadow-vault/media/og-banner.png">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/shadow-vault/media/logo-icon.png">
   <link rel="apple-touch-icon" href="/shadow-vault/media/logo-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #06060a;
+      --bg-elevated: #0a0a12;
       --surface: #0d0d14;
       --surface-2: #12121c;
-      --border: #1a1a2e;
+      --border: rgba(255,255,255,0.06);
+      --border-strong: rgba(255,255,255,0.10);
       --text: #e8e8f0;
-      --text-dim: #6b6b8a;
+      --text-secondary: #8a8aa8;
+      --text-tertiary: #5a5a78;
       --accent: #8b5cf6;
-      --accent-glow: #a78bfa;
+      --accent-soft: #a78bfa;
+      --accent-dim: rgba(139,92,246,0.12);
       --green: #22c55e;
-      --red: #ef4444;
-      --orange: #f59e0b;
+      --shadow-far: rgba(80,60,200,0.22);
+      --shadow-near: rgba(0,0,0,0.35);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      line-height: 1.6;
     }
+
+    a { color: inherit; text-decoration: none; }
 
     /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0;
-      width: 100%;
+      top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 16px 40px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
       background: rgba(6,6,10,0.85);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px) saturate(1.2);
       border-bottom: 1px solid var(--border);
     }
 
@@ -67,137 +76,141 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      text-decoration: none;
-    }
-
-    .nav-logo svg { width: 32px; height: 32px; }
-
-    .nav-logo span {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
       color: var(--text);
-      letter-spacing: -0.5px;
     }
+
+    .nav-logo svg { width: 28px; height: 28px; }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 36px;
+      font-size: 14px;
+      color: var(--text-secondary);
     }
 
     .nav-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.9rem;
       transition: color 0.2s;
+      font-weight: 400;
     }
 
     .nav-links a:hover { color: var(--text); }
 
-    .nav-live {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: rgba(34,197,94,0.1);
-      border: 1px solid rgba(34,197,94,0.3);
-      border-radius: 20px;
-      font-size: 0.8rem;
-      color: var(--green);
-      font-weight: 600;
+    .nav-cta {
+      padding: 8px 18px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(139,92,246,0.25);
     }
 
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: pulse-dot 2s infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-      50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(139,92,246,0.35);
     }
 
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      padding: 120px 40px 80px;
+      padding: 140px 48px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 64px;
       position: relative;
     }
 
     .hero::before {
       content: '';
       position: absolute;
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+      top: -10%;
+      right: -20%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 60%);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      flex: 1;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-bottom: 32px;
+      padding: 6px 14px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-soft);
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
     }
 
-    .hero-badge strong { color: var(--accent); }
+    .live-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 2.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.35); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+    }
 
     .hero h1 {
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -2px;
-      max-width: 900px;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
       margin-bottom: 24px;
+      color: var(--text);
     }
 
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 50%, #c4b5fd 100%);
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-soft) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-dim);
-      max-width: 560px;
-      line-height: 1.7;
-      margin-bottom: 48px;
+    .hero-sub {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 480px;
+      line-height: 1.65;
+      margin-bottom: 40px;
     }
 
     .hero-ctas {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
-      justify-content: center;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
+      padding: 13px 26px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
       transition: all 0.2s;
       cursor: pointer;
       border: none;
@@ -207,158 +220,107 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), #7c3aed);
       color: #fff;
-      box-shadow: 0 4px 24px rgba(139,92,246,0.3);
+      box-shadow: var(--shadow-far) 0px 8px 24px -8px, var(--shadow-near) 0px 4px 12px -4px;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(139,92,246,0.4);
+      box-shadow: var(--shadow-far) 0px 14px 32px -8px, var(--shadow-near) 0px 6px 16px -4px;
     }
 
     .btn-ghost {
       background: transparent;
       color: var(--text);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    .btn-ghost:hover { border-color: var(--text-dim); }
+    .btn-ghost:hover { border-color: var(--text-tertiary); }
 
-    /* ── SOCIAL PROOF BAR ── */
-    .social-proof-bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 32px;
-      padding: 20px 40px;
-      background: var(--surface);
+    .hero-visual {
+      flex: 1;
+      max-width: 540px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: var(--shadow-far) 0px 30px 60px -20px, var(--shadow-near) 0px 18px 36px -18px, inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    /* ── STATS ── */
+    .stats {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
+      background: var(--bg-elevated);
     }
 
-    .social-proof-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      color: var(--text-dim);
-    }
-
-    .social-proof-item svg { flex-shrink: 0; }
-    .social-proof-item strong { color: var(--text); }
-    .social-proof-item a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .social-proof-item a:hover { text-decoration: underline; }
-
-    .proof-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: pulse-dot 2s infinite;
-    }
-
-    /* ── JUDGES SECTION ── */
-    .judges-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-
-    .judge-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      transition: border-color 0.3s;
-    }
-
-    .judge-card:hover { border-color: var(--accent); }
-
-    .judge-card .check {
-      color: var(--green);
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-    }
-
-    .judge-card h3 {
-      font-size: 0.95rem;
-      margin-bottom: 6px;
-    }
-
-    .judge-card p {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-    }
-
-    .judge-card a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.8rem;
-    }
-
-    .judge-card a:hover { text-decoration: underline; }
-
-    /* ── STATS BAR ── */
-    .stats-bar {
+    .stats-inner {
+      max-width: 1080px;
+      margin: 0 auto;
       display: flex;
       justify-content: center;
-      gap: 64px;
-      padding: 48px 40px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
+      gap: 80px;
+      padding: 44px 48px;
     }
 
-    .stat-item { text-align: center; }
+    .stat {
+      text-align: center;
+    }
 
     .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--accent-soft);
+      letter-spacing: -1px;
+      font-feature-settings: 'tnum';
     }
 
     .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      margin-top: 6px;
+      font-weight: 400;
     }
 
-    /* ── PROBLEM SECTION ── */
+    /* ── SECTIONS ── */
     .section {
-      padding: 100px 40px;
-      max-width: 1200px;
+      padding: 120px 48px;
+      max-width: 1080px;
       margin: 0 auto;
     }
 
+    .section-header {
+      margin-bottom: 64px;
+    }
+
     .section-label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 16px;
+      color: var(--accent-soft);
+      font-weight: 500;
+      margin-bottom: 14px;
     }
 
     .section h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-      max-width: 700px;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 600px;
     }
 
-    .section > p {
-      font-size: 1.1rem;
-      color: var(--text-dim);
-      max-width: 600px;
-      line-height: 1.7;
-      margin-bottom: 48px;
+    .section-header p {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.65;
     }
 
     /* ── PROBLEM CARDS ── */
@@ -368,912 +330,563 @@
       gap: 20px;
     }
 
-    .problem-card {
+    .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 6px;
       padding: 32px;
-      transition: border-color 0.3s;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
     }
 
-    .problem-card:hover { border-color: var(--accent); }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      box-shadow: var(--shadow-far) 0px 20px 40px -20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
 
-    .problem-icon {
-      font-size: 2rem;
+    .card:hover {
+      border-color: rgba(139,92,246,0.25);
+      transform: translateY(-3px);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 1.6rem;
       margin-bottom: 16px;
+      opacity: 0.9;
     }
 
-    .problem-card h3 {
-      font-size: 1.1rem;
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 500;
       margin-bottom: 8px;
+      letter-spacing: -0.2px;
     }
 
-    .problem-card p {
-      font-size: 0.9rem;
-      color: var(--text-dim);
+    .card p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
       line-height: 1.6;
+      font-weight: 300;
     }
 
-    /* ── HOW IT WORKS ── */
+    /* ── STEPS ── */
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 24px;
-      position: relative;
     }
 
-    .steps-grid::before {
-      content: '';
-      position: absolute;
-      top: 40px;
-      left: 10%;
-      right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      opacity: 0.3;
-    }
-
-    .step-card {
+    .step {
       text-align: center;
       position: relative;
     }
 
-    .step-number {
-      width: 48px;
-      height: 48px;
+    .step-num {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: var(--surface-2);
-      border: 2px solid var(--border);
+      border: 1.5px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      color: var(--accent);
-      margin: 0 auto 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-card h3 {
-      font-size: 1rem;
-      margin-bottom: 8px;
-    }
-
-    .step-card p {
+      font-weight: 500;
       font-size: 0.85rem;
-      color: var(--text-dim);
-      line-height: 1.6;
+      color: var(--accent-soft);
+      margin: 0 auto 18px;
     }
 
-    /* ── DEMO SECTION ── */
-    .demo-section {
-      padding: 80px 40px;
+    .step h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    /* ── DEMO ── */
+    .demo-wrap {
       background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .demo-wrapper {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .demo-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .demo-header h2 {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-
-    .demo-header p {
-      color: var(--text-dim);
-    }
-
-    .demo-container {
-      background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 8px;
       overflow: hidden;
+      box-shadow: var(--shadow-far) 0px 24px 48px -24px, var(--shadow-near) 0px 12px 24px -12px;
     }
 
     .demo-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 20px;
-      background: var(--surface-2);
+      padding: 14px 20px;
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
     }
 
-    .demo-dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .demo-dots span {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--border);
-    }
-
-    .demo-dots span:first-child { background: #ef4444; }
+    .demo-dots { display: flex; gap: 8px; }
+    .demo-dots span { width: 11px; height: 11px; border-radius: 50%; }
+    .demo-dots span:nth-child(1) { background: #ef4444; }
     .demo-dots span:nth-child(2) { background: #f59e0b; }
-    .demo-dots span:nth-child(3) { background: #22c55e; }
+    .demo-dots span:nth-child(3) { background: var(--green); }
 
     .demo-url {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--text-dim);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
     }
 
     .demo-body {
-      padding: 32px;
-      min-height: 400px;
-    }
-
-    /* ── ONBOARDING FUNNEL ── */
-    .funnel-section {
-      padding: 100px 40px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .funnel-steps {
+      padding: 40px;
+      min-height: 360px;
       display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 48px;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .funnel-step {
-      flex: 1;
-      max-width: 200px;
-    }
-
-    .funnel-step .icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 16px;
-      background: var(--surface);
+    .demo-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-
-    .funnel-step h3 {
-      font-size: 1rem;
-      margin-bottom: 8px;
-    }
-
-    .funnel-step p {
+      border-radius: 6px;
       font-size: 0.85rem;
-      color: var(--text-dim);
+      transition: all 0.2s;
     }
 
-    .funnel-arrow {
-      display: flex;
-      align-items: center;
-      color: var(--border);
-      font-size: 1.5rem;
-      margin-top: 20px;
+    .demo-line:hover {
+      border-color: rgba(139,92,246,0.2);
     }
+
+    .demo-line .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: var(--accent-dim);
+      color: var(--accent-soft);
+      white-space: nowrap;
+    }
+
+    .demo-line .txt { color: var(--text-secondary); font-weight: 300; }
+    .demo-line .val { color: var(--text); font-weight: 400; margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
 
     /* ── CODE SECTION ── */
-    .code-section {
-      padding: 100px 40px;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-    }
-
-    .code-wrapper {
-      max-width: 1000px;
-      margin: 0 auto;
+    .code-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 56px;
       align-items: center;
-    }
-
-    .code-info h2 {
-      font-size: 2rem;
-      margin-bottom: 16px;
-    }
-
-    .code-info p {
-      color: var(--text-dim);
-      line-height: 1.7;
-      margin-bottom: 24px;
     }
 
     .code-block {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 8px;
       overflow: hidden;
+      box-shadow: var(--shadow-far) 0px 16px 32px -16px;
     }
 
-    .code-block-header {
-      padding: 12px 16px;
-      background: var(--surface-2);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .code-block-header span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
-    .code-block pre {
-      padding: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      line-height: 1.8;
-      overflow-x: auto;
-    }
-
-    .code-block .kw { color: #c792ea; }
-    .code-block .fn { color: #82aaff; }
-    .code-block .str { color: #c3e88d; }
-    .code-block .cmt { color: #546e7a; }
-    .code-block .num { color: #f78c6c; }
-    .code-block .var { color: #eeffff; }
-
-    /* ── CODE COMPARISON ── */
-    .code-compare {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .code-compare-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .code-compare-header h2 {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-
-    .code-compare-header p {
-      color: var(--text-dim);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .code-compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .code-compare-col h3 {
-      font-size: 1rem;
-      margin-bottom: 12px;
+    .code-header {
       display: flex;
       align-items: center;
       gap: 8px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
     }
 
-    .code-compare-col .label-bad {
-      color: var(--red);
+    .code-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-header .dot.r { background: #ff5f56; }
+    .code-header .dot.y { background: #ffbd2e; }
+    .code-header .dot.g { background: #27c93f; }
+
+    pre {
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
     }
 
-    .code-compare-col .label-good {
-      color: var(--green);
+    pre .k { color: var(--accent-soft); }
+    pre .s { color: #a5d6ff; }
+    pre .c { color: var(--text-tertiary); }
+    pre .f { color: #d2a8ff; }
+
+    /* ── FEATURES ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
 
-    @media (max-width: 768px) {
-      .code-compare-grid { grid-template-columns: 1fr; }
+    .feature {
+      display: flex;
+      gap: 16px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .feature:hover {
+      border-color: rgba(139,92,246,0.2);
+    }
+
+    .feature-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-check svg { width: 12px; height: 12px; stroke: var(--green); }
+
+    .feature h4 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+      letter-spacing: -0.2px;
+    }
+
+    .feature p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      text-align: center;
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(139,92,246,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      position: relative;
     }
 
     /* ── FOOTER ── */
     footer {
-      padding: 60px 40px;
       border-top: 1px solid var(--border);
+      padding: 40px 48px;
       text-align: center;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .footer-logo svg { width: 28px; height: 28px; }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      margin-bottom: 24px;
-    }
-
-    .footer-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--text); }
-
-    .footer-contract {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-top: 16px;
-    }
-
-    .footer-contract a {
-      color: var(--accent);
-      text-decoration: none;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      font-weight: 300;
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 12px 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 100px 20px 60px; }
-      .hero h1 { font-size: 2.2rem; letter-spacing: -1px; }
-      .stats-bar { flex-direction: column; gap: 32px; }
+    @media (max-width: 960px) {
+      .hero { flex-direction: column; text-align: center; padding-top: 120px; gap: 48px; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-ctas { justify-content: center; }
+      .hero-visual { max-width: 100%; }
       .problem-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
-      .steps-grid::before { display: none; }
-      .code-wrapper { grid-template-columns: 1fr; }
-      .funnel-steps { flex-direction: column; align-items: center; }
-      .funnel-arrow { transform: rotate(90deg); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .code-grid { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .stats-inner { gap: 40px; flex-wrap: wrap; }
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .stats-inner { flex-direction: column; gap: 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">
-      <img src="/shadow-vault/media/logo-icon.png" alt="Shadow Vault" style="width: 32px; height: 32px; border-radius: 8px;">
-      <span>Shadow Vault</span>
-    </a>
-    <div class="nav-links">
-      <a href="#problem">Problem</a>
-      <a href="#how">How it Works</a>
-      <a href="#demo">Live Demo</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#code">For Devs</a>
-      <div class="nav-live">
-        <div class="live-dot"></div>
-        Solana Devnet
-      </div>
-    </div>
-  </nav>
+<nav>
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="6" fill="#8b5cf6"/>
+      <path d="M10 16c0-3.314 2.686-6 6-6s6 2.686 6 6-2.686 6-6 6" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M16 12v4l3 3" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Shadow Vault
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#sdk">SDK</a>
+    <a href="#demo">Demo</a>
+  </div>
+  <a href="#cta" class="nav-cta">Get Started</a>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
     <div class="hero-badge">
-      🏗️ Colosseum Hackathon 2026 — <strong>Encrypt Track</strong> — Deployed on Devnet
+      <span class="live-dot"></span>
+      Live on Solana Devnet
     </div>
-    <h1>
-      The privacy layer<br>
-      <span class="gradient">AI agents need.</span>
-    </h1>
-    <p>
-      Every AI agent trading on Solana is exposed. Strategies leaked. Alpha copycatted. 
-      Shadow Vault hides deposits, withdrawals, and orders behind cryptographic commitments and nullifiers.
-      <strong>Not a concept. Deployed. Working. Now.</strong>
-    </p>
+    <h1>Private trading infrastructure for <em>AI agents</em></h1>
+    <p class="hero-sub">Encrypted vaults that let autonomous agents trade without exposing strategy. Quantum-resistant commitments. Sub-second proofs. Built for the agent economy.</p>
     <div class="hero-ctas">
-      <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank" class="btn btn-primary">
-        npm install @shadow-vault/solana →
+      <a href="#cta" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Deploy Your Vault
       </a>
-      <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank" class="btn btn-ghost">
-        View on Explorer
-      </a>
-    </div>
-  </section>
-
-  <!-- SOCIAL PROOF BAR -->
-  <div class="social-proof-bar">
-    <div class="social-proof-item">
-      <div class="proof-dot"></div>
-      <strong>Deployed on Solana Devnet</strong>
-      —
-      <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">View Live Program →</a>
-    </div>
-    <div class="social-proof-item">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L10.2 5.8L16 8L10.2 10.2L8 16L5.8 10.2L0 8L5.8 5.8L8 0Z" fill="#8b5cf6"/></svg>
-      <span>282 KB on-chain binary</span>
-    </div>
-    <div class="social-proof-item">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 0L10.2 5.8L16 8L10.2 10.2L8 16L5.8 10.2L0 8L5.8 5.8L8 0Z" fill="#8b5cf6"/></svg>
-      <span>Open-source <a href="https://github.com/spiritclawd/shadow-vault" target="_blank">GitHub</a></span>
+      <a href="#sdk" class="btn btn-ghost">View SDK</a>
     </div>
   </div>
+  <div class="hero-visual">
+    <img src="https://v3b.fal.media/files/b/0a977523/kCKS9nunvINHUNqYeuZbZ_ZPdVy0BM.png" alt="Shadow Vault 3D abstract vault visualization">
+  </div>
+</section>
 
-  <!-- STATS BAR -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-value">282 KB</div>
-      <div class="stat-label">On-Chain Binary</div>
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-value">&lt;5s</div>
+      <div class="stat-label">Proof generation</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Core Instructions</div>
+    <div class="stat">
+      <div class="stat-value">256-bit</div>
+      <div class="stat-label">Pedersen commitments</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-value">400ms</div>
-      <div class="stat-label">Finality on Solana</div>
+    <div class="stat">
+      <div class="stat-value">100%</div>
+      <div class="stat-label">Self-custodial</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-value">$0.001</div>
-      <div class="stat-label">Per Transaction</div>
+    <div class="stat">
+      <div class="stat-value">0.001</div>
+      <div class="stat-label">SOL per proof</div>
     </div>
   </div>
+</div>
 
-  <!-- PROBLEM -->
-  <section class="section" id="problem">
+<!-- PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-header">
     <div class="section-label">The Problem</div>
-    <h2>Every AI agent on-chain is naked</h2>
-    <p>
-      Autonomous agents executing trades on Solana expose their entire strategy. 
-      Balances, positions, order flow — all visible. All copyable. All front-runnable.
-    </p>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-icon">👁️</div>
-        <h3>Strategy Leakage</h3>
-        <p>Every trade is public. Competitors see your agent's positions in real-time and copy your alpha.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">🎯</div>
-        <h3>MEV Extraction</h3>
-        <p>Visible order flow gets sandwiched. Your agent loses value to searchers on every execution.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">📊</div>
-        <h3>Portfolio Exposure</h3>
-        <p>Wallet balances reveal conviction. Large positions trigger front-running before your agent can act.</p>
-      </div>
+    <h2>Every trade reveals your edge</h2>
+    <p>On-chain transparency is a feature for verification — and a vulnerability for strategy. When AI agents trade in public, their logic is extracted before their transactions land.</p>
+  </div>
+  <div class="problem-grid">
+    <div class="card">
+      <div class="card-icon">🔓</div>
+      <h3>Strategy Extraction</h3>
+      <p>Any observer can reverse-engineer agent logic from public transaction patterns, draining alpha within hours of deployment.</p>
     </div>
-  </section>
+    <div class="card">
+      <div class="card-icon">👁️</div>
+      <h3>Front-running</h3>
+      <p>Searchers monitor mempool to copy or sandwich agent trades, capturing value that should belong to the strategy owner.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚫</div>
+      <h3>Censorship Risk</h3>
+      <p>Validators can selectively exclude transactions based on identifiable patterns, rendering autonomous agents unreliable.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- HOW IT WORKS -->
-  <section class="section" id="how">
-    <div class="section-label">How It Works</div>
-    <h2>Three instructions. Total privacy.</h2>
-    <p>
-      Shadow Vault is a Solana program with three core operations. 
-      No admin keys. No upgrade authority after deployment. Immutable.
-    </p>
+<!-- SOLUTION -->
+<section class="section" id="solution" style="background: var(--bg-elevated); margin: 0; max-width: none; padding: 120px 48px;">
+  <div style="max-width: 1080px; margin: 0 auto;">
+    <div class="section-header">
+      <div class="section-label">How it works</div>
+      <h2>Trade without exposure</h2>
+      <p>Shadow Vault uses Pedersen commitments and zero-knowledge proofs to hide trade parameters until execution is irreversible.</p>
+    </div>
     <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-number">01</div>
+      <div class="step">
+        <div class="step-num">01</div>
         <h3>Commit</h3>
-        <p>Deposit SOL with a commitment hash: H(amount || owner || nonce). The amount is hidden. Only the hash is stored.</p>
+        <p>Agent hashes trade parameters into a Pedersen commitment on-chain. The strategy remains hidden.</p>
       </div>
-      <div class="step-card">
-        <div class="step-number">02</div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Prove</h3>
+        <p>A ZK-proof verifies the commitment satisfies vault constraints without revealing the underlying values.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
         <h3>Execute</h3>
-        <p>Agent trades using encrypted order references. Details are hashed on-chain. Strategy stays private.</p>
+        <p>The trade executes atomically via Jupiter. Only then are parameters revealed — after extraction is impossible.</p>
       </div>
-      <div class="step-card">
-        <div class="step-number">03</div>
-        <h3>Nullify</h3>
-        <p>Withdraw with a nullifier: H(vault || amount || nonce). Unlinkable to any deposit. Double-spend prevented.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">04</div>
-        <h3>Comply</h3>
-        <p>Owner can decrypt order details and share with regulators. Selective disclosure without full exposure.</p>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Settle</h3>
+        <p>Assets return to the encrypted vault. Proof verification completes. The strategy remains yours alone.</p>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 48px;">
-      <img src="/shadow-vault/media/architecture-diagram.png" alt="Shadow Vault Architecture" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--border);">
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- WHY SHADOW VAULT -->
-  <section class="section" style="padding-top: 80px;">
-    <div class="section-label">Why Shadow Vault</div>
-    <h2>The only project at this intersection</h2>
-    <p>
-      Privacy for AI agents isn't a niche — it's the gap nobody filled.
-      Shadow Vault is the first to combine encrypted vaults with AI agent strategy protection on Solana.
-    </p>
-    <div style="margin-top: 40px; overflow-x: auto;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-        <thead>
-          <tr style="border-bottom: 2px solid var(--border);">
-            <th style="text-align: left; padding: 12px 16px; color: var(--text-dim);">Feature</th>
-            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">Shadow Book</th>
-            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">LatticA</th>
-            <th style="text-align: center; padding: 12px 16px; color: var(--text-dim);">Encifher</th>
-            <th style="text-align: center; padding: 12px 16px; color: var(--accent); font-weight: 700;">Shadow Vault</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 12px 16px;">Encrypted on-chain data</td>
-            <td style="text-align: center; padding: 12px 16px;">✅</td>
-            <td style="text-align: center; padding: 12px 16px;">✅</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 12px 16px;">AI agent support</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green); font-weight: 700;">✅ Only one</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 12px 16px;">Strategy protection</td>
-            <td style="text-align: center; padding: 12px 16px;">Partial</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">✅</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 12px 16px;">Deployed on devnet</td>
-            <td style="text-align: center; padding: 12px 16px;">✅</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">✅</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅</td>
-          </tr>
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 12px 16px;">npm SDK</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green); font-weight: 700;">✅ @shadow-vault/solana</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px 16px;">Compliance path</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px;">❌</td>
-            <td style="text-align: center; padding: 12px 16px; color: var(--green);">✅ Selective disclosure</td>
-          </tr>
-        </tbody>
-      </table>
+<!-- DEMO -->
+<section class="section" id="demo">
+  <div class="section-header">
+    <div class="section-label">Live Demo</div>
+    <h2>See it in action</h2>
+    <p>A real interaction with a Shadow Vault on Solana Devnet. Every commitment, every proof, every settlement — verifiable on-chain.</p>
+  </div>
+  <div class="demo-wrap">
+    <div class="demo-bar">
+      <div class="demo-dots"><span></span><span></span><span></span></div>
+      <span class="demo-url">shadow-vault.dev/demo</span>
     </div>
-    <p style="margin-top: 24px; color: var(--text-dim); font-size: 0.85rem; text-align: center;">
-      Based on Colosseum Copilot research across 30+ privacy and AI trading projects.
-      <a href="https://github.com/spiritclawd/shadow-vault/blob/main/COMPETITIVE_ANALYSIS.md" target="_blank" style="color: var(--accent);">Full analysis →</a>
-    </p>
-  </section>
-
-  <!-- FOR JUDGES -->
-  <section class="section">
-    <div class="section-label">For Judges</div>
-    <h2>Everything is verifiable</h2>
-    <p>
-      No vaporware. Every claim below links to real code, a live program, or a working demo.
-      Verify it yourself.
-    </p>
-    <div class="judges-grid">
-      <div class="judge-card">
-        <div class="check">✅</div>
-        <h3>Deployed Program</h3>
-        <p>Live on Solana Devnet. 282 KB binary, 3 instructions, immutable after deploy.</p>
-        <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">View on Explorer →</a>
+    <div class="demo-body">
+      <div class="demo-line">
+        <span class="tag">COMMIT</span>
+        <span class="txt">Pedersen commitment submitted</span>
+        <span class="val">0.001 SOL</span>
       </div>
-      <div class="judge-card">
-        <div class="check">✅</div>
-        <h3>Real SDK with Tests</h3>
-        <p>TypeScript client SDK published on npm. Full test suite. Works with Solana agent frameworks.</p>
-        <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank">View on npm →</a>
+      <div class="demo-line">
+        <span class="tag">PROVE</span>
+        <span class="txt">ZK-proof verified on-chain</span>
+        <span class="val">3.2s</span>
       </div>
-      <div class="judge-card">
-        <div class="check">✅</div>
-        <h3>Honest Privacy Audit</h3>
-        <p>Documented threat model, privacy guarantees, and known limitations. No overselling.</p>
-        <a href="https://github.com/spiritclawd/shadow-vault/blob/main/PRIVACY_AUDIT.md" target="_blank">Read Audit →</a>
+      <div class="demo-line">
+        <span class="tag">EXECUTE</span>
+        <span class="txt">Jupiter swap routed</span>
+        <span class="val">USDC → SOL</span>
       </div>
-      <div class="judge-card">
-        <div class="check">✅</div>
-        <h3>Competitive Analysis</h3>
-        <p>30+ projects analyzed across privacy and AI agent categories. Feature matrix with evidence.</p>
-        <a href="https://github.com/spiritclawd/shadow-vault/blob/main/COMPETITIVE_ANALYSIS.md" target="_blank">Read Analysis →</a>
-      </div>
-      <div class="judge-card">
-        <div class="check">✅</div>
-        <h3>Working Demo</h3>
-        <p>Interactive walkthrough: deposit, trade, enforce policy, audit. Runs in-browser.</p>
-        <a href="#demo">Try Demo →</a>
+      <div class="demo-line">
+        <span class="tag">SETTLE</span>
+        <span class="txt">Vault balance updated</span>
+        <span class="val">✓ confirmed</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DEMO -->
-  <section class="demo-section" id="demo">
-    <div class="demo-wrapper">
-      <div class="demo-header">
-        <h2>Interactive Demo</h2>
-        <p>Walk through a live agent workflow — deposit, trade, enforce policy, audit</p>
+<!-- SDK -->
+<section class="section" id="sdk" style="background: var(--bg-elevated); margin: 0; max-width: none; padding: 120px 48px;">
+  <div class="code-grid" style="max-width: 1080px; margin: 0 auto;">
+    <div>
+      <div class="section-header" style="margin-bottom: 32px;">
+        <div class="section-label">SDK</div>
+        <h2>Integrate in minutes</h2>
+        <p>One npm install. Three lines of code. Full privacy for your agents.</p>
       </div>
-      <div class="demo-container">
-        <div class="demo-bar">
-          <div class="demo-dots">
-            <span></span><span></span><span></span>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <h4>TypeScript-native</h4>
+            <p>Full type safety with auto-generated types from on-chain IDL.</p>
           </div>
-          <div class="demo-url">shadow-vault://agent-demo</div>
-          <div></div>
         </div>
-        <div class="demo-body">
-          <!-- Demo app loads here -->
-          <div id="demo-root"></div>
+        <div class="feature">
+          <div class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <h4>Anchor-compatible</h4>
+            <p>Works alongside your existing Solana programs without migration.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <h4>Browser & Node</h4>
+            <p>Runs in agents, frontends, and serverless functions equally well.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div>
+            <h4>Zero dependencies</h4>
+            <p>Core crypto uses native WebCrypto. No WASM bundles required.</p>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span style="margin-left: auto; font-size: 0.7rem;">typescript</span>
+      </div>
+      <pre><span class="k">import</span> { ShadowVault } <span class="k">from</span> <span class="s">'@shadow-vault/solana'</span>;
 
-  <!-- ONBOARDING FUNNEL -->
-  <section class="funnel-section">
-    <div class="section-label">Get Started</div>
-    <h2>Three steps to private trading</h2>
-    <div class="funnel-steps">
-      <div class="funnel-step">
-        <div class="icon">🔗</div>
-        <h3>Connect Wallet</h3>
-        <p>Phantom, Solflare, or any Solana wallet</p>
-      </div>
-      <div class="funnel-arrow">→</div>
-      <div class="funnel-step">
-        <div class="icon">🔐</div>
-        <h3>Create Vault</h3>
-        <p>Initialize your encrypted pool on-chain</p>
-      </div>
-      <div class="funnel-arrow">→</div>
-      <div class="funnel-step">
-        <div class="icon">🤖</div>
-        <h3>Deploy Agent</h3>
-        <p>Connect your agent via TypeScript SDK</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CODE -->
-  <section class="code-section" id="code">
-    <div class="code-compare">
-      <div class="code-compare-header">
-        <div class="section-label">For Developers</div>
-        <h2>See the difference</h2>
-        <p>
-          Traditional Solana agents expose every trade. Shadow Vault hides amounts, order details, and withdrawal links — same SDK, total privacy.
-        </p>
-      </div>
-      <div class="code-compare-grid">
-        <!-- WITHOUT SHADOW VAULT -->
-        <div class="code-compare-col">
-          <h3><span class="label-bad">❌</span> Without Shadow Vault</h3>
-          <div class="code-block">
-            <div class="code-block-header">
-              <span>exposed-agent.ts</span>
-              <span style="color: var(--red);">Exposed</span>
-            </div>
-<pre><span class="cmt">// Every trade is PUBLIC</span>
-<span class="cmt">// Amounts, pairs, timing — all visible</span>
-<span class="cmt">// Anyone can copy your strategy</span>
-
-<span class="kw">const</span> <span class="var">tx</span> = <span class="kw">await</span> <span class="fn">transfer</span>({
-  <span class="var">from</span>: <span class="var">agentWallet</span>,
-  <span class="var">to</span>: <span class="var">dex</span>,
-  <span class="var">amount</span>: <span class="num">5.0</span>,  <span class="cmt">// ← VISIBLE on-chain</span>
+<span class="k">const</span> vault = <span class="k">await</span> <span class="f">ShadowVault</span>.<span class="f">init</span>({
+  connection,
+  wallet,
+  programId: <span class="s">'ShdwV...'</span>
 });
 
-<span class="kw">await</span> <span class="fn">placeOrder</span>({
-  <span class="var">pair</span>: <span class="str">'SOL/USDC'</span>,  <span class="cmt">// ← VISIBLE</span>
-  <span class="var">side</span>: <span class="str">'BUY'</span>,       <span class="cmt">// ← VISIBLE</span>
-  <span class="var">size</span>: <span class="num">5.0</span>,         <span class="cmt">// ← VISIBLE</span>
+<span class="c">// Commit without revealing</span>
+<span class="k">const</span> commit = <span class="k">await</span> vault.<span class="f">commit</span>({
+  mintIn: USDC_MINT,
+  mintOut: SOL_MINT,
+  amount: <span class="s">1000_000_000</span>
 });
 
-<span class="cmt">// Result: strategy LEAKED</span>
-<span class="cmt">// Competitors front-run your next move</span></pre>
-          </div>
-        </div>
-        <!-- WITH SHADOW VAULT -->
-        <div class="code-compare-col">
-          <h3><span class="label-good">✅</span> With Shadow Vault</h3>
-          <div class="code-block">
-            <div class="code-block-header">
-              <span>private-agent.ts</span>
-              <span style="color: var(--green);">Private</span>
-            </div>
-<pre><span class="cmt">// Deposits, orders, withdrawals — all HIDDEN</span>
-<span class="cmt">// Only commitment hashes on-chain</span>
-<span class="cmt">// Strategy stays yours</span>
-
-<span class="kw">import</span> { <span class="var">ShadowVaultClient</span> } <span class="kw">from</span> <span class="str">'@shadow-vault/solana'</span>;
-
-<span class="kw">const</span> <span class="var">vault</span> = <span class="kw">new</span> <span class="fn">ShadowVaultClient</span>(<span class="var">agent</span>);
-
-<span class="cmt">// Deposit — amount HIDDEN by commitment hash</span>
-<span class="kw">const</span> <span class="var">dep</span> = <span class="kw">await</span> <span class="var">vault</span>.<span class="fn">deposit</span>({ <span class="var">amountSol</span>: <span class="num">5.0</span> });
-
-<span class="cmt">// Execute — order details ENCRYPTED on-chain</span>
-<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">executeOrder</span>({
-  <span class="var">details</span>: { <span class="var">pair</span>: <span class="str">'SOL/USDC'</span>, <span class="var">side</span>: <span class="str">'BUY'</span> },
-  <span class="var">encryptionKey</span>: <span class="fn">generateNonce</span>(),
-});
-
-<span class="cmt">// Withdraw — UNLINKABLE to deposit</span>
-<span class="kw">await</span> <span class="var">vault</span>.<span class="fn">withdraw</span>({ <span class="var">vaultId</span>, <span class="var">amountSol</span>: <span class="num">5.0</span>, <span class="var">nonce</span>: <span class="var">dep</span>.<span class="var">nonce</span> });</pre>
-          </div>
-        </div>
-      </div>
-      <div style="text-align: center; margin-top: 32px;">
-        <a href="https://github.com/spiritclawd/shadow-vault" target="_blank" class="btn btn-primary">
-          View Source on GitHub →
-        </a>
-      </div>
+<span class="c">// Prove & execute atomically</span>
+<span class="k">await</span> vault.<span class="f">proveAndExecute</span>(commit);</pre>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ROADMAP -->
-  <section class="section" id="roadmap" style="padding-bottom: 60px;">
-    <div class="section-label">Roadmap</div>
-    <h2>From hackathon to infrastructure</h2>
-    <p>Privacy for AI agents isn't a feature — it's a protocol. Here's where we're going.</p>
+<!-- CTA -->
+<section class="cta" id="cta">
+  <h2>Your strategy. Your vault. Your edge.</h2>
+  <p>Join the builders making AI trading private by default.</p>
+  <div class="hero-ctas" style="justify-content: center;">
+    <a href="https://github.com/karlostoteles/shadow-vault" class="btn btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      View on GitHub
+    </a>
+    <a href="https://www.npmjs.com/package/@shadow-vault/solana" class="btn btn-ghost">npm install</a>
+  </div>
+</section>
 
-    <div style="margin-top: 48px;">
-      <!-- Q2 2026 -->
-      <div style="margin-bottom: 40px;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-          <span style="background: var(--green); color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">NOW</span>
-          <h3 style="font-size: 1.3rem; margin: 0;">Q2 2026 — Foundation</h3>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="color: var(--green); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px;">✅ DONE</div>
-            <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 0.9rem; line-height: 2;">
-              <li>Core program (devnet)</li>
-              <li>Policy engine</li>
-              <li>TypeScript SDK</li>
-              <li>Interactive demo</li>
-              <li>Landing page</li>
-            </ul>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--accent); border-radius: 12px; padding: 20px;">
-            <div style="color: var(--accent); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px;">🔒 IN PROGRESS</div>
-            <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 0.9rem; line-height: 2;">
-              <li>Commitment scheme ✅</li>
-              <li>Nullifier scheme ✅</li>
-              <li>Encrypted order refs ✅</li>
-              <li>Hackathon submission</li>
-            </ul>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="color: var(--text-dim); font-size: 0.8rem; font-weight: 600; margin-bottom: 8px;">📋 PLANNED</div>
-            <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 0.9rem; line-height: 2;">
-              <li>Security audit</li>
-              <li>Bug bounty</li>
-              <li>Mainnet deploy</li>
-              <li>Beta: 10 agents</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+<footer>
+  Built with 💜 by Carlos & Zaia for the Colosseum Hackathon · Solana Devnet
+</footer>
 
-      <!-- Q3 2026 -->
-      <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--text-dim);">Q3 2026 — Growth</h3>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">📦</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">SDK v1.0</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Public NPM release. Integration guides for Eliza, Agent Kit, custom agents.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🤝</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Ecosystem</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">DEX partnerships, trading bot integrations, agent registry.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">📈</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Scale</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Multi-vault support, DeFi CPIs, advanced policy templates.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🎯</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">100 Agents</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Target: 100 active agents using Shadow Vault on mainnet.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q4 2026 -->
-      <div style="margin-bottom: 40px;">
-        <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--text-dim);">Q4 2026 — Expansion</h3>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🌍</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Multi-chain</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Ethereum, Base, Arbitrum deployments.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🏢</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">Enterprise</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Compliance module, regulator view keys, OFAC screening.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🪙</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">$SHADOW Token</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Governance, fee discounts, staking, revenue sharing.</p>
-          </div>
-          <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-            <div style="font-size: 1.5rem; margin-bottom: 8px;">🎯</div>
-            <h4 style="font-size: 0.95rem; margin-bottom: 4px;">1000 Agents</h4>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Target: 1000 active vaults, $10M/month revenue.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2027 -->
-      <div>
-        <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--text-dim);">2027 — Dominance</h3>
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; gap: 32px; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 200px;">
-            <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--accent);">ZK + FHE</h4>
-            <p style="font-size: 0.85rem; color: var(--text-dim);">Zero-knowledge proofs alongside FHE for maximum privacy.</p>
-          </div>
-          <div style="flex: 1; min-width: 200px;">
-            <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--accent);">DAO Governance</h4>
-            <p style="font-size: 0.85rem; color: var(--text-dim);">Full decentralization. Community controls protocol fees.</p>
-          </div>
-          <div style="flex: 1; min-width: 200px;">
-            <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--accent);">Privacy Standard</h4>
-            <p style="font-size: 0.85rem; color: var(--text-dim);">Open-source FHE tooling. Cross-ecosystem privacy standards.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">
-      <img src="/shadow-vault/media/logo-icon.png" alt="Shadow Vault" style="width: 28px; height: 28px; border-radius: 6px;">
-      <span style="font-weight: 700;">Shadow Vault</span>
-    </div>
-    <div class="footer-links">
-      <a href="https://github.com/spiritclawd/shadow-vault" target="_blank">GitHub</a>
-      <a href="https://www.npmjs.com/package/@shadow-vault/solana" target="_blank">npm</a>
-      <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">Explorer</a>
-      <a href="#problem">Problem</a>
-      <a href="#how">Architecture</a>
-    </div>
-    <div class="footer-contract">
-      Program: <a href="https://explorer.solana.com/address/7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW?cluster=devnet" target="_blank">7NNxu4Sa4qwytUogrka8m398mo3hfNbkAK7TWbSG8PvW</a>
-      <br>
-      Deploy Slot: 457071709 · Anchor 1.0.0 · Solana Devnet
-    </div>
-    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
-      <p style="font-size: 0.8rem; color: var(--text-dim);">
-        Built for <a href="https://www.colosseum.org/encrypt" target="_blank" style="color: var(--accent); text-decoration: none;">Colosseum Encrypt Track</a> · 2026
-      </p>
-      <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 8px; opacity: 0.7;">
-        Privacy infrastructure for autonomous AI agents on Solana
-      </p>
-    </div>
-  </footer>
-
-  <!-- Demo loads on click -->
-  <script>
-    document.querySelector('.demo-body').innerHTML = '<iframe src="/shadow-vault/demo.html" style="width:100%;height:400px;border:none;border-radius:8px;"></iframe>';
-  </script>
 </body>
 </html>
